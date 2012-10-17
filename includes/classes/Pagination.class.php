@@ -21,7 +21,7 @@ class Paginator {
 	}
 
 	function paginate()
-	{
+	{	
 		if($_GET['ipp'] == 'All')
 		{
 			$this->num_pages = ceil($this->items_total/$this->default_ipp);

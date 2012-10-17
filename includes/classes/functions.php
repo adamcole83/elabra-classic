@@ -27,33 +27,20 @@ function image($class, $name)
 	return '<img class="'.$class.'" alt="'.$name.'" src="images/'.$name.'" />';
 }
 
-function showRequired($post='', $title='', $submit='submit')
+function get_parent($parent)
 {
-	if(isset($_POST[$submit]) && empty($post)) {
-		$title = !empty($title) ? $title.' is ' : null;
-		return '<span class="red">'.ucfirst($title.'required').'</span>';
-	}
-}
-
-function format_phone($phone)
-{
-	$phone = preg_replace("/[^0-9]/", "", $phone);
-
-	if(strlen($phone) == 7)
-		return preg_replace("/([0-9]{3})([0-9]{4})/", "$1-$2", $phone);
-	elseif(strlen($phone) == 10)
-		return preg_replace("/([0-9]{3})([0-9]{3})([0-9]{4})/", "($1) $2-$3", $phone);
-	else
-		return $phone;
-}
-
-function get_parent($parent,$child)
-{
-	if( $parent == $child ) {
-		echo 'Parent';
+	if( $parent == 0) {
+		echo '(no parent)';
 	}else{
 		echo Content::find_by_id($parent)->title;
 	}
+}
+
+function increment_string($str, $separator = '_', $first = 1)
+{
+	preg_match('/(.+)'.$separator.'([0-9]+)$/', $str, $match);
+
+	return isset($match[2]) ? $match[1].$separator.($match[2] + 1) : $str.$separator.$first;
 }
 
 function _n($one,$other)
@@ -64,6 +51,50 @@ function _n($one,$other)
 function _l($uri)
 {
 	echo HTTP."://".$uri;
+}
+
+function aasort (&$array, $key)
+{
+	$sorter=array();
+	$ret=array();
+	reset($array);
+	foreach ($array as $ii => $va) {
+		$sorter[$ii]= $va[$key];
+	}
+	asort($sorter);
+	foreach ($sorter as $ii => $va) {
+		$ret[]= (object) $array[$ii];
+	}
+	return $ret;
+}
+
+function resize_image($width,$height,$max_width=480,$max_height=320)
+{
+	$dimensions = array();
+	
+	// proportionally resize image to max sizes
+	$x_ratio = $max_width / $width;
+	$y_ratio = $max_height / $height;
+	
+	if( ($width <= $max_width) && ($height <= $max_height) )
+	{
+		$size[0] = $width;
+		$size[1] = $height;
+		$size[2] = "1";
+	}
+	elseif( ($x_ratio * $height) < $max_height )
+	{
+		$size[0] = ceil($x_ratio * $height);
+		$size[1] = $max_width;
+		$size[2] = "2";
+	}
+	else
+	{
+		$size[0] = ceil($y_ratio * $width);
+		$size[1] = $max_height;
+		$size[2] = "3";
+	}
+	return $size;
 }
 
 function instantiate($result_set=null, $fields=array(), $cast='object')
@@ -99,35 +130,6 @@ function instantiate($result_set=null, $fields=array(), $cast='object')
 }
 
 
-function resize_image($width,$height,$max_width=480,$max_height=320)
-{
-	$dimensions = array();
-	
-	// proportionally resize image to max sizes
-	$x_ratio = $max_width / $width;
-	$y_ratio = $max_height / $height;
-	
-	if( ($width <= $max_width) && ($height <= $max_height) )
-	{
-		$size[0] = $width;
-		$size[1] = $height;
-		$size[2] = "1";
-	}
-	elseif( ($x_ratio * $height) < $max_height )
-	{
-		$size[0] = ceil($x_ratio * $height);
-		$size[1] = $max_width;
-		$size[2] = "2";
-	}
-	else
-	{
-		$size[0] = ceil($y_ratio * $width);
-		$size[1] = $max_height;
-		$size[2] = "3";
-	}
-	return $size;
-}
-
 /**
  * Redirects to the location given
  *
@@ -146,6 +148,7 @@ function check_session() {
 	
 	if(!$session->is_logged_in()){ redirect_to('login.php'); }
 	
+	check_environment();
 	is_restricted();
 }
 
@@ -155,6 +158,20 @@ function is_restricted() {
 		$session->message('You currently have no access to this system.');
 		$session->logout();
 		redirect_to('login.php');		
+	}
+}
+
+function check_environment()
+{
+	if(defined('ENVIRONMENT'))
+	{
+		if(ENVIRONMENT == 'maintenance')
+		{
+			if( ! Group::can('access_offline'))
+			{
+				redirect_to('maintenance.php');
+			}
+		}
 	}
 }
 
@@ -183,7 +200,21 @@ function get_page_info($part) {
 
 function ldapAuth($usr,$pwd)
 {
-	
+	$ds = ldap_connect("ldap.missouri.edu",3268);
+	$ldapbind = false;
+	if( ldap_set_option($ds, LDAP_OPT_PROTOCOL_VERSION, 3)
+		&& ldap_start_tls($ds)
+		&& !empty($usr)
+		&& !empty($pwd))
+	{
+		$ldapbind = ((@ldap_bind($ds, $usr.'@umh.edu', $pwd)
+				|| $ldapbind = @ldap_bind($ds, $usr.'@col.missouri.edu', $pwd)
+				|| $ldapbind = @ldap_bind($ds, $usr.'@umsystem.umsystem.edu', $pwd)
+				|| $ldapbind = @ldap_bind($ds, $usr.'@tig.mizzou.edu', $pwd))
+			&& ($usr != "" && $pwd != ""));
+	}
+	ldap_close($ds);
+	return $ldapbind;
 }
 
 function listfiles($leadon='')
@@ -326,6 +357,8 @@ function global_footer() {
 	include_global_template('div.footer.php');
 }
 
+
+
 function include_local_template($template="") {
 	include(LIB_PATH.DS.$template);
 }
@@ -426,7 +459,7 @@ function getDirectorySize($path)
 	$totalsize = 0;
 	$totalcount = 0;
 	$dircount = 0;
-	if ($handle = opendir($path))
+	if ($handle = @opendir($path))
 	{
 		while (false !== ($file = readdir($handle)))
 		{
@@ -448,8 +481,8 @@ function getDirectorySize($path)
 				}
 			}
 		}
+		closedir($handle);
 	}
-	closedir($handle);
 	$total['size'] = $totalsize;
 	$total['count'] = $totalcount;
 	$total['dircount'] = $dircount;
@@ -496,8 +529,8 @@ function get_allowed_mime_types() {
 		'gif' => 'image/gif',
 		'png' => 'image/png',
 		'bmp' => 'image/bmp',
-		'tif' => 'image/tiff',
-		'tiff' => 'image/tiff',
+	//	'tif' => 'image/tiff',
+	//	'tiff' => 'image/tiff',
 		'ico' => 'image/x-icon',
 		'asf' => 'video/asf',
 		'asx' => 'video/asf',
@@ -571,7 +604,10 @@ function get_allowed_mime_types() {
 		'pptx' => 'application/vnd.openxmlformats-officedocument.presentationml',
 		'sldx' => 'application/vnd.openxmlformats-officedocument.presentationml',
 		'ppsx' => 'application/vnd.openxmlformats-officedocument.presentationml',
+		'pps' => 'application/vnd.openxmlformats-officedocument.presentationml',
 		'potx' => 'application/vnd.openxmlformats-officedocument.presentationml',
+		'xlsm' => 'application/vnd.openxmlformats-officedocument.spreadsheetml',
+		'xls' => 'application/vnd.openxmlformats-officedocument.spreadsheetml',
 		'xlsx' => 'application/vnd.openxmlformats-officedocument.spreadsheetml',
 		'xltx' => 'application/vnd.openxmlformats-officedocument.spreadsheetml',
 		'docx' => 'application/vnd.openxmlformats-officedocument.wordprocessingml',
@@ -614,7 +650,7 @@ function get_file_types()
 			'video'       => array( 'asf', 'avi',  'divx', 'dv',   'flv',  'm4v',   'mkv', 'mov', 'mp4', 'mpeg', 'mpg', 'mpv', 'ogm', 'ogv', 'qt',  'rm', 'swf', 'vob', 'wmv' ),
 			'document'    => array( 'doc', 'docx', 'docm', 'dotm', 'odt',  'pages', 'pdf', 'rtf', 'wp',  'wpd' ),
 			'spreadsheet' => array( 'numbers',     'ods',  'xls',  'xlsx', 'xlsb',  'xlsm' ),
-			'interactive' => array( 'key', 'ppt',  'pptx', 'pptm', 'odp', 'pot' ),
+			'interactive' => array( 'key', 'ppt',  'pptx', 'pptm', 'odp', 'pot', 'pps' ),
 			'text'        => array( 'asc', 'csv',  'tsv',  'txt' ),
 			'archive'     => array( 'bz2', 'cab',  'dmg',  'gz',   'rar',  'sea',   'sit', 'sqx', 'tar', 'tgz',  'zip' ),
 			'code'        => array( 'css', 'htm',  'html', 'php',  'js' ),
@@ -703,10 +739,10 @@ function _t($string, $length=100, $delim='...'){
 	return $string;
 }
 
-function _tw($string, $width, $delim='…') {
+function _tw($string, $width, $delim='...') {
 	if (strlen($string) > $width) {
 	    $string = wordwrap($string, $width);
-	    $string = substr($string, 0, strpos($string, "\n"));
+	    $string = rtrim(substr($string, 0, strpos($string, "\n")).$delim);
 	}
 	return $string;
 }
