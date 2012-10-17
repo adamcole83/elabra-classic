@@ -1,0 +1,9 @@
+0000000000000000000000000000000000000000 3bc76dade1b57dbb0ad380b5f729749130fc0264 Adam <adamcole83@gmail.com> 1338485008 -0500	clone: from git@github.com:ElabraLabs/CMS.git
+3bc76dade1b57dbb0ad380b5f729749130fc0264 b9be4d8b20c398373b2eb96751b2741c04a8675f Adam <adamcole83@gmail.com> 1338822670 -0500	pull: Fast-forward
+b9be4d8b20c398373b2eb96751b2741c04a8675f 84cb5a61fed3896e156fc8986a7be23cc9663fcb Adam <adamcole83@gmail.com> 1338823057 -0500	pull: Fast-forward
+84cb5a61fed3896e156fc8986a7be23cc9663fcb 925c43e1c98817d1397a246c6507d468537e1778 Adam <adamcole83@gmail.com> 1338914256 -0500	pull: Fast-forward
+925c43e1c98817d1397a246c6507d468537e1778 16169398f60e8f201ce0bc26dd90308c58fd5179 Adam Jenkins <jenkinsa@umhc-stgprodl.umh.edu> 1344009994 -0500	commit: Fixed filesize issue in media select. Various login issues corrected
+16169398f60e8f201ce0bc26dd90308c58fd5179 a4be10ffd246c301b19a852ddb29d586b4827cc2 Adam Jenkins <jenkinsa@umhc-stgprodl.umh.edu> 1344267700 -0500	pull origin master: Fast-forward
+a4be10ffd246c301b19a852ddb29d586b4827cc2 720d0cf41e2550dad3a85740fa8e05f059aa96c2 Adam Jenkins <jenkinsa@umhc-stgprodl.umh.edu> 1344271057 -0500	pull origin master: Fast-forward
+720d0cf41e2550dad3a85740fa8e05f059aa96c2 af6341c60b9e1856516e63de6e31372983b90d20 Adam Jenkins <jenkinsa@umhc-stgprodl.umh.edu> 1344286589 -0500	pull origin master: Fast-forward
+af6341c60b9e1856516e63de6e31372983b90d20 1a877c114c5205997ec084136e5a231f57d91f17 Adam Jenkins <jenkinsa@umhc-stgprodl.umh.edu> 1349967303 -0500	commit: Fixed login issues. Allowed CMS bypass

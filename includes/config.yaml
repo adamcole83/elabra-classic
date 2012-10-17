@@ -1,0 +1,7 @@
+root: "admin"
+site-name: "Content Management System"
+page:
+	index:
+		login:
+			title: "Secure Access - University of Missouri - School of Medicine"
+			description: ""

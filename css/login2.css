@@ -1,0 +1,140 @@
+.noscript {
+	text-align: center;
+	color: #fff;
+	font-weight: bold;
+	background: #ff0000;
+	font-size: 20px;
+	padding: 50px 0;
+	position: absolute;
+	left: 50%;
+	margin-left: -400px;
+	width: 800px;
+	z-index: 999;
+	height: 140px;
+	opacity: .8;
+}
+
+/* basics */
+#content form.auth {
+	margin: 20px auto;
+	padding: 20px 45px;
+	width: 400px;
+	position: relative;
+	overflow: visible;
+	*display: inline-block;
+	_height: 0;
+}
+#content form.auth:after {
+	content: "";
+	visibility: hidden;
+	display: block;
+	clear: both;
+}
+#content form.auth label {
+	display: block;
+	color: #666;
+	font-size: 15px;
+	margin: 8px 0 3px;
+}
+
+#content form.auth input:not(.submit),
+#content form.auth select {
+	font-size: 16px;
+	color: #444;
+	width: 100%;
+	outline: 0;
+}
+form.auth input:focus,
+form.auth select:focus {
+	outline: none;
+	-moz-outline: none;
+	-webkit-box-shadow: none;
+}
+
+#content form.auth input.submit {
+	float: right;
+	display: block;
+	background: url(/images/button_form.png) no-repeat top center;
+	border: none;
+	width: 64px;
+	height: 25px;
+	text-indent: -150px;
+	margin: 10px -5px 0 0;
+	clear: both;
+}
+
+#content form.auth input.submit:active {
+	background-position: center -25px;
+}
+
+
+/* login */
+form#login {
+	background: url(/images/formBox.gif) no-repeat center center;
+	height: 145px;
+}
+form#login.errChange {
+	background: url(/images/formBoxError.gif) no-repeat center center;
+}
+form#login label:first-child {
+	margin-top: 5px;
+}
+
+p.welcome {
+	text-align: center;
+	font-size: 18px;
+	margin-top: 50px !important;
+}
+p.welcome span {
+	display: block;
+	font-size: 14px;
+}
+
+
+#dialog {
+	position: absolute;
+	right: 40px;
+	top: 25px;
+	display: none;
+	color: #de0707;
+}
+#dialog p {
+	font-weight: bold;
+}
+
+form#login a {
+	color: #999;
+	text-decoration: none;
+	font-weight: normal;
+	font-size: 12px;
+	cursor: pointer;
+}
+form#login a:hover {
+	text-decoration: underline;
+}
+
+span#bubbledrop {
+	position: absolute;
+	display: none;
+	left: 15px;
+	top: 145px;
+	width: 162px;
+	background: url(/images/bubbledrop.png) top center no-repeat;
+	color: #fff;
+	opacity: .7;
+	padding-top: 20px;
+	font-size: 11px;
+	border-radius: 0px 0px 5px 5px;
+	-moz-border-radius: 0px 0px 5px 5px;
+	z-index: 10;
+}
+span#bubbledrop span {
+	padding: 0 5px 10px 6px;
+	display: block;
+}
+
+span#bubbledrop a {
+	font-size: 11px;
+	color: #fff;
+	text-decoration: underline;
+}
