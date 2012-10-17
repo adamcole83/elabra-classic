@@ -1,0 +1,6 @@
+.htaccess
+.DS_Store
+includes/initialize.php
+includes/config.php
+uploads/
+developer/
