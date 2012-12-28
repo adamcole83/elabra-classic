@@ -35,5 +35,6 @@
 			</div>
 			
 		</div>
+		<?php include_once('includes/googleanalytics.php'); ?>
 	</body>
 </html>

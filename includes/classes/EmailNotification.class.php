@@ -40,7 +40,7 @@ class EmailNotification
 					"Login here:\r\n".
 					"http://medicine.missouri.edu/admin/changepassword.php?u={$userencoded}&r={$this->redirect}&site={$sitename}";
 		$mail = mail($this->to, $subject, $message, self::$header);
-		error_log('Email sent to '.$username);
+	//	error_log('Email sent to '.$username);
 		return $mail;
 	}
 	
