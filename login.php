@@ -56,5 +56,6 @@
 				wiggleDialog	: false
 			});
 		</script>
+		<?php include_once('includes/googleanalytics.php'); ?>
 	</body>
 </html>

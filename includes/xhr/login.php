@@ -3,8 +3,6 @@
 	// initialize classes
 	require_once('../initialize.php');
 	
-	foreach($_POST as $k=>$v) error_log($k.": ".$v,0);
-	
 	// Set variables
 	$username = trim($_POST['username']);
 	$password = trim($_POST['password']);
