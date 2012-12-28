@@ -9,14 +9,7 @@
 				</script>
 				<div class="floatLeft pulse"><?php echo strtoupper(ENVIRONMENT); ?> MODE ACTIVE</div>
 				
-				<?php
-				$stringfromfile = file('.git/HEAD', FILE_USE_INCLUDE_PATH);
-				$stringfromfile = $stringfromfile[0]; //get the string from the array
-				$explodedstring = explode("/", $stringfromfile); //seperate out by the "/" in the string
-				$branchname = $explodedstring[2]; //get the one that is always the branch name
-				?>
-				
-				BRANCH: <?php echo $branchname; ?>
+				BRANCH: <?php echo sc_branch(); ?>
 				
 				<?php endif; ?>
 <!-- 				<span onclick="ShowTools('toolMessages')"><span class="msgcount">0</span> Messages</span> -->
