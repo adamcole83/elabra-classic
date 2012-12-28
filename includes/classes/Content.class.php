@@ -148,7 +148,7 @@ class Content
 		// Create revision
 		$obj = self::find_by_id($this->id);
 		if($obj->post_type == 'post') {
-			self::new_revision();
+			self::new_revision($this->id);
 		}
 		
 		$sql = "UPDATE ".self::$tblName." SET ";
@@ -163,7 +163,7 @@ class Content
 		global $database, $session;
 		$obj = self::find_by_id($this->id);
 		if( $obj->post_type == 'post' ) {
-			self::delete_all_revisions();
+			self::delete_all_revisions($this->id);
 		}
 		$sql = "DELETE FROM ".self::$tblName;
 		$sql .= " WHERE id=". $database->escape_value($this->id);
@@ -407,17 +407,15 @@ class Content
 		return $this->update();
 	}
 	
-	public function new_revision()
+	public function new_revision($post_id=null)
 	{
 		global $session, $database;
 		
-		$this->id = 7310;
-		
-		if( ! $this->id)
+		if( ! $post_id)
 			return false;
 		
 		// 1. Get current post
-		$post = $this->find_by_id($this->id);
+		$post = $this->find_by_id($post_id);
 		
 		if( ! $post)
 			return false;
@@ -429,11 +427,11 @@ class Content
 		$obj->post_type = 'revision';
 		$obj->updatedBy = $_SESSION['user_id'];
 		$obj->post_created = time();
-		$obj->parent_id = $post->id;
+		$obj->parent_id = $post_id;
 		$obj->title = $post->title;
 		$obj->body = $post->body;
 		$obj->status = 'inherit';
-		$obj->url = $post->id.'-revision';
+		$obj->url = $post_id.'-revision';
 		$rev_id = $obj->create();
 		
 		// 3. Clean up revisions
@@ -463,15 +461,17 @@ class Content
 											WHERE parent_id={$post_id} 
 												AND post_type='revision' 
 											ORDER BY id DESC 
-											LIMIT 2
+											LIMIT ".POST_REVISION_COUNT."
 										) foo
 									);");
 		return $result;
 	}
 	
-	function get_all_revisions($post_id=null)
+	public function get_all_revisions($post_id=null)
 	{
+		$revisions = self::find_by_sql("SELECT * FROM ".self::$tblName." WHERE parent_id={$post_id} AND post_type='revision' ORDER BY id DESC;");
 		
+		return $revisions;
 	}
 	
 	function delete_all_revisions($post_id=null)

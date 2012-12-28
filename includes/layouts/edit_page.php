@@ -152,4 +152,17 @@ $page_url = DOMAIN.'/'.$_dept->get()->subdir.'/'.$content->url.'.html';
 
 <br class="clear" />
 
-<pre><?php $_content->new_revision(); ?></pre>
+<?php if(Group::can('manage_revisions')): ?>
+<div class="box row" style="margin-top: 30px;">
+	<div class="box-header">
+		Revisions
+	</div>
+	<div class="box-container">
+		<ul>
+			<?php foreach($_content->get_all_revisions($content->id) as $revision): ?>
+			<li><a href="revisions.php?revision=<?php echo $revision->id; ?>"><?php echo time_to_text($revision->post_created); ?></a> by <? echo User::get($revision->updatedBy)->username; ?></li>
+			<?php endforeach; ?>
+		</ul>
+	</div>
+</div>
+<?php endif; ?>
