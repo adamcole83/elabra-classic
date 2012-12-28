@@ -144,6 +144,13 @@ class Content
 				$attribute_pairs[] = "{$key}='{$value}'";
 			}
 		}
+		
+		// Create revision
+		$obj = self::find_by_id($this->id);
+		if($obj->post_type == 'post') {
+			self::new_revision();
+		}
+		
 		$sql = "UPDATE ".self::$tblName." SET ";
 		$sql .= join(", ", $attribute_pairs);
 		$sql .= " WHERE id=". $database->escape_value($this->id);
@@ -156,7 +163,7 @@ class Content
 		global $database, $session;
 		$obj = self::find_by_id($this->id);
 		if( $obj->post_type == 'post' ) {
-			self::mark_file_deleted();
+			self::delete_all_revisions();
 		}
 		$sql = "DELETE FROM ".self::$tblName;
 		$sql .= " WHERE id=". $database->escape_value($this->id);
@@ -398,6 +405,82 @@ class Content
 		}
 		
 		return $this->update();
+	}
+	
+	public function new_revision()
+	{
+		global $session, $database;
+		
+		$this->id = 7310;
+		
+		if( ! $this->id)
+			return false;
+		
+		// 1. Get current post
+		$post = $this->find_by_id($this->id);
+		
+		if( ! $post)
+			return false;
+		
+		// 2. Create a new revision
+		$timestamp = time();
+		
+		$obj = new self;
+		$obj->post_type = 'revision';
+		$obj->updatedBy = $_SESSION['user_id'];
+		$obj->post_created = time();
+		$obj->parent_id = $post->id;
+		$obj->title = $post->title;
+		$obj->body = $post->body;
+		$obj->status = 'inherit';
+		$obj->url = $post->id.'-revision';
+		$rev_id = $obj->create();
+		
+		// 3. Clean up revisions
+		self::clean_revisions($post->id);
+		
+		// 4. Return
+		return $rev_id;
+	}
+	
+	function restore_to_revision($rev_id=null)
+	{
+		
+	}
+	
+	function clean_revisions($post_id=null)
+	{
+		global $db;
+		
+		$result = $db->query(  "DELETE FROM ".self::$tblName." 
+								WHERE parent_id={$post_id} 
+									AND post_type='revision' 
+									AND id NOT IN (
+										SELECT id 
+										FROM (
+											SELECT id 
+											FROM ".self::$tblName." 
+											WHERE parent_id={$post_id} 
+												AND post_type='revision' 
+											ORDER BY id DESC 
+											LIMIT 2
+										) foo
+									);");
+		return $result;
+	}
+	
+	function get_all_revisions($post_id=null)
+	{
+		
+	}
+	
+	function delete_all_revisions($post_id=null)
+	{
+		global $db;
+		
+		$result = $db->query("DELETE FROM ".self::$tblName." WHERE parent_id={$post_id} post_type='revision';");
+		
+		return $result;
 	}
 	
 /*

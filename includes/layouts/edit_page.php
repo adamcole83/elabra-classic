@@ -151,3 +151,5 @@ $page_url = DOMAIN.'/'.$_dept->get()->subdir.'/'.$content->url.'.html';
 </div>
 
 <br class="clear" />
+
+<pre><?php $_content->new_revision(); ?></pre>
