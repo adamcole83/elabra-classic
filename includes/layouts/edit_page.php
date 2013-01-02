@@ -15,7 +15,7 @@ $page_url = DOMAIN.'/'.$_dept->get()->subdir.'/'.$content->url.'.html';
 <script type="text/javascript">
 	$(function() {
 		var save = function mceSave() {
-			Publish('page.<? echo $content->id; ?>');
+			Publish('page.<?php echo $content->id; ?>');
 			return true;
 		}
 		LoadMCE(save);
@@ -68,23 +68,21 @@ $page_url = DOMAIN.'/'.$_dept->get()->subdir.'/'.$content->url.'.html';
 		};
 	});
 </script>
+
+<div class="floatRight">
+<a href="<?php echo $page_url; ?>" target="_blank" class="button inactive">View Page</a>
+<?php if($_SESSION['user_id'] == 3): ?>
+<a href="javascript:void();" onclick="LoadUploader();" class="button inactive">Upload Media</a>
+<?php endif; ?>
+</div>
 <h2 class="tab-pages">
-	<? echo $content->title; ?>
-	<span>
-		<a href="<? echo $page_url; ?>" target="_blank">View Page</a>
-		<?php if($_SESSION['user_id'] == 3): ?>
-		| <a href="javascript:void();" onclick="LoadUploader();">Upload Media</a>
-		<?php endif; ?>
-	</span>
+	<?php echo $content->title; ?>
 </h2>
 <div id="alert-box">&nbsp;</div>
 
 <form class="editor">
-	<textarea id="body" name="body"><? echo $content->body; ?></textarea>
-	<div class="notification" style="display:block;">
-		<span><strong>Did you know?</strong></span><br />
-		<span id="note"></span>
-	</div>
+	<textarea id="body" name="body"><?php echo $content->body; ?></textarea>
+	<br />
 	<table class="form">
 		<tr>
 			<td></td>
@@ -93,22 +91,22 @@ $page_url = DOMAIN.'/'.$_dept->get()->subdir.'/'.$content->url.'.html';
 		</tr>
 		<tr>
 			<th><label for="title">Title</label></th>
-			<td><input type="text" name="title" id="title" value="<? echo $content->title ?>" class="required" /></td>
+			<td><input type="text" name="title" id="title" value="<?php echo $content->title ?>" class="required" /></td>
 			<td><label for="title" class="error" id="title_error"><span>(required)</span></label></td>
 		</tr>
 		<tr>
 			<th><label for="description">Description<br /><span>meta tag</span></label></th>
-			<td><textarea name="description" id="description" class="required"><? echo $content->description ?></textarea></td>
+			<td><textarea name="description" id="description" class="required"><?php echo $content->description ?></textarea></td>
 			<td><label for="description" class="error" id="description_error"><span>(required)</span></label></td>
 		</tr>
 		<tr>
 			<th><label for="url">Slug</label></th>
-			<td><input type="text" name="url" id="url" value="<? echo $content->url ?>" class="required" /></td>
+			<td><input type="text" name="url" id="url" value="<?php echo $content->url ?>" class="required" /></td>
 			<td><label for="url" class="error" id="url_error"><span>(required)</span></label></td>
 		</tr>
 		<tr>
 			<th><label for="guid">Permalink</label></th>
-			<td><input type="text" name="guid" id="guid" value="<? echo $content->guid; ?>" class="required" /></td>
+			<td><input type="text" name="guid" id="guid" value="<?php echo $content->guid; ?>" class="required" /></td>
 			<td><label for="guid" class="error" id="guid_error"><span>(required)</span></label></td>
 		</tr>
 		<tr>
@@ -122,32 +120,47 @@ $page_url = DOMAIN.'/'.$_dept->get()->subdir.'/'.$content->url.'.html';
 			<th><label for="menu_order">Menu Order</label></th>
 			<td><input type="text" name="menu_order" id="menu_order" maxlength="2" value="<?php echo $content->menu_order; ?>" style="min-width:30px;width:30px;" /></td>
 			
-			<input type="hidden" name="updatedBy" value="<? echo $_SESSION['user_id']; ?>" />
+			<input type="hidden" name="updatedBy" value="<?php echo $_SESSION['user_id']; ?>" />
 			<input type="hidden" name="post_type" value="post" />
-			<input type="hidden" name="department" value="<? echo $content->department; ?>" />
+			<input type="hidden" name="department" value="<?php echo $content->department; ?>" />
 		</tr>
-		<? if(Group::can('publish_page')): ?>
+		<?php if(Group::can('publish_page')): ?>
 		<tr>
 			<th><label for="status">Status</label></th>
 			<td>
 				<select name="status" id="status" class="required">
-					<option value="draft" <? selected($content->status, 'draft', false); ?>>Draft</option>
-					<option value="published" <? selected($content->status, 'published', false); ?>>Published</option>
+					<option value="draft" <?php selected($content->status, 'draft', false); ?>>Draft</option>
+					<option value="published" <?php selected($content->status, 'published', false); ?>>Published</option>
 				</select>
 			</td>
 		</tr>
-		<? else: ?>
-		<input type="hidden" name="status" value="<? echo $content->status; ?>" />
-		<? endif; ?>
+		<?php else: ?>
+		<input type="hidden" name="status" value="<?php echo $content->status; ?>" />
+		<?php endif; ?>
 	</table>
 </form>
 
 <div class="controls" style="float:left;">
-	<a class="button inactive" href="javascript:void(0);" onclick="Purge('page.<? echo $content->id; ?>.redirect')">Delete</a>
+	<a class="button inactive" href="javascript:void(0);" onclick="Purge('page.<?php echo $content->id; ?>.redirect')">Delete</a>
 </div>
 <div class="controls">	
 	<a class="button inactive" href="page.php">Done</a>
-	<a class="button" id="publish" href="javascript:void(0);" onclick="Publish('page.<? echo $content->id; ?>')">Save</a>
+	<a class="button" id="publish" href="javascript:void(0);" onclick="Publish('page.<?php echo $content->id; ?>')">Save</a>
 </div>
 
 <br class="clear" />
+
+<?php if(Group::can('manage_revisions') && $revisions = $_content->get_all_revisions($content->id)): ?>
+<div class="box row revisions" style="margin-top: 30px;">
+	<div class="box-header">
+		Revisions
+	</div>
+	<div class="box-container">
+		<ul>
+			<?php foreach($revisions as $revision): ?>
+			<li><a href="revisions.php?revision=<?php echo $revision->id; ?>&action=edit"><?php echo time_to_text($revision->post_created); ?></a> by <?php echo User::get($revision->updatedBy)->username; ?></li>
+			<?php endforeach; ?>
+		</ul>
+	</div>
+</div>
+<?php endif; ?>
