@@ -77,5 +77,6 @@ if($_POST['submit']){
 			<p>&copy;<? echo date('Y') ?>, University of Missouri - School of Medicine</p>
 			<p>Office of Communications, All Right Reserved</p>
 		</div><!-- #legal -->
+		<?php include_once('includes/googleanalytics.php'); ?>
 	</body>
 </html>
