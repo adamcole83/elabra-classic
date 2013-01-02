@@ -122,10 +122,6 @@ class Content
 		global $database, $session;
 		
 		$attributes = $this->sanitized_attributes();
-		
-		// Created on
-		$attributes['post_created'] = time();
-		
 		$sql = "INSERT INTO ".self::$tblName." (";
 		$sql .= join(", ", array_keys($attributes));
 		$sql .= ") VALUES ('";
@@ -148,13 +144,6 @@ class Content
 				$attribute_pairs[] = "{$key}='{$value}'";
 			}
 		}
-		
-		// Create revision
-		$obj = self::find_by_id($this->id);
-		if($obj->post_type == 'post') {
-			self::new_revision($this->id, $attributes);
-		}
-		
 		$sql = "UPDATE ".self::$tblName." SET ";
 		$sql .= join(", ", $attribute_pairs);
 		$sql .= " WHERE id=". $database->escape_value($this->id);
@@ -167,7 +156,7 @@ class Content
 		global $database, $session;
 		$obj = self::find_by_id($this->id);
 		if( $obj->post_type == 'post' ) {
-			self::delete_all_revisions($this->id);
+			self::mark_file_deleted();
 		}
 		$sql = "DELETE FROM ".self::$tblName;
 		$sql .= " WHERE id=". $database->escape_value($this->id);
@@ -409,110 +398,6 @@ class Content
 		}
 		
 		return $this->update();
-	}
-	
-	public function new_revision($post_id=null, $attributes=null)
-	{
-		global $session, $database;
-		
-		if( ! $post_id)
-			return false;
-		
-		// 1. Get current post
-		$post = $this->find_by_id($post_id);
-		
-		if( ! $post)
-			return false;
-		
-		// If nothing has changed, don't save a revision
-		if($attributes['body'] == $post->body && $attributes['title'] == $post->title)
-			return false;
-		
-		// 2. Create a new revision
-		$timestamp = time();
-		
-		$obj = new self;
-		$obj->post_type = 'revision';
-		$obj->updatedBy = $_SESSION['user_id'];
-		$obj->post_created = time();
-		$obj->parent_id = $post_id;
-		$obj->title = $post->title;
-		$obj->body = $post->body;
-		$obj->status = 'inherit';
-		$obj->url = $post_id.'-revision';
-		$rev_id = $obj->create();
-		
-		// 3. Clean up revisions
-		self::clean_revisions($post->id);
-		
-		// 4. Return
-		return $rev_id;
-	}
-	
-	function restore_to_revision($rev_id=null)
-	{
-		if(!$rev_id)
-			return false;
-		
-		// 1. Get content of revision
-		$revision = self::find_by_id($rev_id);
-		
-		// 2. Store content to post
-		$obj = new self;
-		$obj->id = $revision->parent_id;
-		$obj->body = $revision->body;
-		$obj->title = $revision->title;
-		$obj->updatedBy = $_SESSION['user_id'];
-		$obj->updated = time();
-		if( ! $obj->update())
-			return false;
-		else
-			$obj = null;
-		
-		// 3. Delete revision
-		$obj = new self;
-		$obj->id = $rev_id;
-		$obj->delete();
-		
-		// 4. Return
-		return true;
-	}
-	
-	function clean_revisions($post_id=null)
-	{
-		global $db;
-		
-		$result = $db->query(  "DELETE FROM ".self::$tblName." 
-								WHERE parent_id={$post_id} 
-									AND post_type='revision' 
-									AND id NOT IN (
-										SELECT id 
-										FROM (
-											SELECT id 
-											FROM ".self::$tblName." 
-											WHERE parent_id={$post_id} 
-												AND post_type='revision' 
-											ORDER BY id DESC 
-											LIMIT ".POST_REVISION_COUNT."
-										) foo
-									);");
-		return $result;
-	}
-	
-	public function get_all_revisions($post_id=null)
-	{
-		$revisions = self::find_by_sql("SELECT * FROM ".self::$tblName." WHERE parent_id={$post_id} AND post_type='revision' ORDER BY id DESC;");
-		
-		return $revisions;
-	}
-	
-	function delete_all_revisions($post_id=null)
-	{
-		global $db;
-		
-		$result = $db->query("DELETE FROM ".self::$tblName." WHERE parent_id={$post_id} post_type='revision';");
-		
-		return $result;
 	}
 	
 /*

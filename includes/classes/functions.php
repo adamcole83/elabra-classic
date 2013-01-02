@@ -36,14 +36,6 @@ function get_parent($parent)
 	}
 }
 
-function sc_branch()
-{
-	$stringfromfile = file('.git/HEAD', FILE_USE_INCLUDE_PATH);
-	$stringfromfile = $stringfromfile[0]; //get the string from the array
-	$explodedstring = explode("/", $stringfromfile); //seperate out by the "/" in the string
-	return $explodedstring[2]; //get the one that is always the branch name
-}
-
 function increment_string($str, $separator = '_', $first = 1)
 {
 	preg_match('/(.+)'.$separator.'([0-9]+)$/', $str, $match);
@@ -716,9 +708,9 @@ function datetime_to_text($datetime="") {
 
 function time_to_text($time=""){
 	if(!empty($time)) {
-		return date('F j, Y @ g:i a', $time);
+		return date('D M j, Y g:i a', $time);
 	}else{
-		return date('F j, Y @ g:i a', time());
+		return date('D M j, Y g:i a', time());
 	}
 }
 

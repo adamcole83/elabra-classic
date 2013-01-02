@@ -1,6 +1,5 @@
 		<div id="toolmenu" <?php echo defined('ENVIRONMENT') && ENVIRONMENT == 'maintenance' ? 'class="maintenance"':null; ?>>
 			<div class="container">
-				
 				<?php if(defined('ENVIRONMENT') && ENVIRONMENT != 'production'): ?>
 				<script type="text/javascript">
 				$(function() {
@@ -8,9 +7,6 @@
 				});
 				</script>
 				<div class="floatLeft pulse"><?php echo strtoupper(ENVIRONMENT); ?> MODE ACTIVE</div>
-				
-				BRANCH: <?php echo sc_branch(); ?>
-				
 				<?php endif; ?>
 <!-- 				<span onclick="ShowTools('toolMessages')"><span class="msgcount">0</span> Messages</span> -->
 				<span onclick="ShowTools('toolDepartment')">Change Department</span>
