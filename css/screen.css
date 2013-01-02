@@ -1,11 +1,12 @@
 /* Import Stylesheets */
-@import url(jquery-ui-1.8.16.custom.css); @import url(../js/datepicker/css/datepicker.css);
+@import url(jquery-ui-1.8.16.custom.css); @import url(../js/datepicker/css/datepicker.css); @import url(http://fonts.googleapis.com/css?family=Open+Sans);
 
 /* Base */
 html { overflow:0; overflow-y:scroll; }
-html,body { background:#fff; border:0; font-family:Arial, Helvetica, sans-serif; font-size:12px; height:100%; margin:0; padding:0; }
+html,body { background:#fff; border:0; font-family: 'Helvetica Neue', Arial, sans-serif; font-size:13px; height:100%; margin:0; padding:0; }
 textarea { font-family:Arial, Helvetica, sans-serif; }
 h1,h2,div,img,span { border:0; margin:0; padding:0; }
+h1,h2, h3 { font-family: 'Open Sans'; }
 h3 { margin:0; padding:0; }
 a { color:#21759B; text-decoration:none; }
 a:hover { text-decoration:none; }
@@ -61,8 +62,8 @@ hr { border: 0 #ccc solid; border-top-width: 1px; clear: both; height: 0; }
 #summary span { color:#fff; font-weight:bold; }
 #menu ul { margin:0; padding:0; list-style:none; }
 #menu li { background:#fff; border-bottom:1px solid #fff; cursor:pointer; font-weight:bold; float:left; margin:1px 2px 0 1px; -moz-border-radius-topleft:3px; -moz-border-radius-topright:3px; -webkit-border-top-left-radius:3px; -webkit-border-top-right-radius:3px; border-top-right-radius:3px; border-top-left-radius:3px; }
-#menu a { display:block; padding:5px 5px 4px; text-decoration:none; color:#333; }
-#menu li.off { background:rgb(204,204,159); border-bottom:1px solid #33332d; cursor:pointer; float:left; font-weight:normal; margin:4px 1px 0 0; }
+#menu a { display:block; padding:4px 5px 3px; text-decoration:none; color:#333; }
+#menu li.off { background:rgb(204,204,159); border-bottom:1px solid #33332d; cursor:pointer; float:left; font-weight:normal; margin:3px 1px 0 0; }
 #menu li.off a { color:#33332d; display:block; padding:4px 6px 2px; }
 #menu li img { margin:1px 3px 0; }
 
@@ -91,9 +92,10 @@ hr { border: 0 #ccc solid; border-top-width: 1px; clear: both; height: 0; }
 #contact a:hover { text-decoration:none; }
 
 /* Headers */
-h2 { padding:0 0 5px 23px; background-position:0 2px; background-repeat:no-repeat; color:#555036!important; border-bottom:1px solid #ccc; margin-bottom:10px; }
-h2 span { color:#666!important; font-size:12px; float:right; clear:right; margin-top:5px; }
+h2 { padding: 5px 0; color:#555036!important; margin-bottom:40px; font-size: 24px; font-weight: 300; letter-spacing: -1px; border-bottom: 1px solid rgba(0,0,0,.1); }
+h2 span { color:#666!important; font-size:12px; float:right; clear:right; margin-top:5px; letter-spacing: 0;}
 h3 { color:#555036; font-size:18px; margin:15px 0 10px; }
+/*
 .tab-dashboard { background-image:url(../images/ico/iface_home.png); }
 .tab-pages { background-image:url(../images/ico/iface_page.png); }
 .tab-media { background-image:url(../images/ico/iface_media.png); }
@@ -105,6 +107,7 @@ h3 { color:#555036; font-size:18px; margin:15px 0 10px; }
 .tab-help { background-image:url(../images/ico/iface_help.png); }
 .tab-gallery { background-image: url(../images/ico/iface_gallery.png) }
 .tab-calendar { background-image:url(../images/ico/iface_events.png); }
+*/
 span#uptime { width:340px; }
 
 /* Forms */
@@ -247,12 +250,29 @@ img.user-status { display: block; float: left; margin-top: -2px; }
 /* Buttons */
 .controls { float:right; margin:10px 0 8px 0px;position: relative; }
 .controls select { float: left; margin: 3px 0; }
-.button { line-height: 24px; height: 22px; min-width: 78px; float: left; color:#333; font-size:12px; border:1px solid #bc9215; cursor:pointer; margin-left:5px; background-color:#DBB134; display: block; text-align: center; padding: 0 10px;text-shadow: 1px 1px 0px #eacd76;  }
+.button { line-height: 24px; height: 22px; min-width: 78px; float: left; color:#fff; font-size:12px;cursor:pointer; margin-left:5px;display: block; text-align: center; padding: 0 10px;
+	
+	border:1px solid rgba(47,83,112,1); 
+	background-color:rgb(97,143,181); 
+	text-shadow: 1px 1px 0px rgba(0,0,0,.4);
+	border-radius: 50px;
+	box-shadow: inset 0px 1px 0px rgba(255,255,255,.2);
+	
+	background-image: -moz-linear-gradient(top, transparent, rgba(0,0,0,.2));
+	background-image: -ms-linear-gradient(top, transparent, rgba(0,0,0,.2));
+	background-image: -o-linear-gradient(top, transparent, rgba(0,0,0,.2));
+	background-image: -webkit-gradient(linear, center top, center bottom, from(transparent), to(rgba(0,0,0,.2)));
+	background-image: -webkit-linear-gradient(top, transparent, rgba(0,0,0,.2));
+	background-image: linear-gradient(top, transparent, rgba(0,0,0,.2));
+}
 .button:first-child {margin: 0;}
-.button:hover{ background-color:#e6bc40; text-decoration:none; }
-.button.inactive { background-color:#F0F0EC; border: 1px solid #ccc;text-shadow: 1px 1px 0px #fff; }
-.button.inactive:hover { background-color:#E6E6DB; }
+.button:hover{ background-color:rgba(97,143,181, .9); text-decoration:none; }
+.button.inactive { background-color:rgba(240,240,240,1); border: 1px solid #ccc; color: rgba(0,0,0,.8);text-shadow: 1px 1px 0px rgba(255,255,255,.4); }
+.button.inactive:hover { background-color:rgba(240,240,240,0.6); }
 .fs-top { position:fixed; top:0; right:40px; z-index:99999; }
+button.button {
+	line-height: 1em;
+}
 
 /* User list popup */
 #listserv { background:url(../images/dimlight.png) repeat top left; position:absolute; top:0; left:0; width:100%; height:100%; }
@@ -575,4 +595,107 @@ ul.menu {
 }
 .nano:hover .pane, .pane.active {
   opacity : 1;
+}
+
+
+/* Revisions */
+.box.revisions ul li {
+	line-height: 1.6em;
+	border-bottom: 1px solid rgba(204, 204, 204, .3);
+}
+.box.revisions ul li:last-child {
+	border-bottom: 0;
+}
+
+.Differences {
+	width: 100%;
+	border-collapse: collapse;
+	border-spacing: 0;
+	empty-cells: show;
+	color: rgba(0,0,0,.7);
+}
+
+.Differences thead th {
+	text-align: left;
+	border-bottom: 0;
+	background: #fff;
+	color: #000;
+	padding: 10px 4px;
+}
+.Differences tbody th {
+	text-align: right;
+	background: #fff;
+	width: 2em;
+	padding: 1px 8px;
+	border-right: 1px solid rgba(0,0,0,.1);
+	vertical-align: top;
+	font-size: 13px;
+}
+.Differences thead th span {
+	font-weight: normal !important;
+	color: rgba(0,0,0,.6);
+}
+.Differences td {
+	padding: 1px 2px;
+	font-family: Consolas, monospace;
+	font-size: 13px;
+}
+
+.DifferencesSideBySide .ChangeInsert td.Left {
+	background: #dfd;
+}
+
+.DifferencesSideBySide .ChangeInsert td.Right {
+	background: #cfc;
+}
+
+.DifferencesSideBySide .ChangeDelete td.Left {
+	background: #f88;
+}
+
+.DifferencesSideBySide .ChangeDelete td.Right {
+	background: #faa;
+}
+
+.DifferencesSideBySide .ChangeReplace .Left {
+	background: #fe9;
+}
+
+.DifferencesSideBySide .ChangeReplace .Right {
+	background: #fd8;
+}
+
+.Differences ins, .Differences del {
+	text-decoration: none;
+}
+
+.DifferencesSideBySide .ChangeReplace ins, .DifferencesSideBySide .ChangeReplace del {
+	background: #fc0;
+}
+
+.Differences .Skipped {
+	background: #f7f7f7;
+}
+
+.DifferencesInline .ChangeReplace .Left,
+.DifferencesInline .ChangeDelete .Left {
+	background: #fdd;
+}
+
+.DifferencesInline .ChangeReplace .Right,
+.DifferencesInline .ChangeInsert .Right {
+	background: #dfd;
+}
+
+.DifferencesInline .ChangeReplace ins {
+	background: #9e9;
+}
+
+.DifferencesInline .ChangeReplace del {
+	background: #e99;
+}
+
+pre {
+	width: 100%;
+	overflow: auto;
 }
