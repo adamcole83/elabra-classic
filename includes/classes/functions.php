@@ -716,9 +716,9 @@ function datetime_to_text($datetime="") {
 
 function time_to_text($time=""){
 	if(!empty($time)) {
-		return date('D M j, Y g:i a', $time);
+		return date('F j, Y @ g:i a', $time);
 	}else{
-		return date('D M j, Y g:i a', time());
+		return date('F j, Y @ g:i a', time());
 	}
 }
 

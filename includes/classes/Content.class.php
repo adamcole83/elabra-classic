@@ -122,6 +122,10 @@ class Content
 		global $database, $session;
 		
 		$attributes = $this->sanitized_attributes();
+		
+		// Created on
+		$attributes['post_created'] = time();
+		
 		$sql = "INSERT INTO ".self::$tblName." (";
 		$sql .= join(", ", array_keys($attributes));
 		$sql .= ") VALUES ('";
@@ -148,7 +152,7 @@ class Content
 		// Create revision
 		$obj = self::find_by_id($this->id);
 		if($obj->post_type == 'post') {
-			self::new_revision($this->id);
+			self::new_revision($this->id, $attributes);
 		}
 		
 		$sql = "UPDATE ".self::$tblName." SET ";
@@ -407,7 +411,7 @@ class Content
 		return $this->update();
 	}
 	
-	public function new_revision($post_id=null)
+	public function new_revision($post_id=null, $attributes=null)
 	{
 		global $session, $database;
 		
@@ -418,6 +422,10 @@ class Content
 		$post = $this->find_by_id($post_id);
 		
 		if( ! $post)
+			return false;
+		
+		// If nothing has changed, don't save a revision
+		if($attributes['body'] == $post->body && $attributes['title'] == $post->title)
 			return false;
 		
 		// 2. Create a new revision
@@ -443,7 +451,31 @@ class Content
 	
 	function restore_to_revision($rev_id=null)
 	{
+		if(!$rev_id)
+			return false;
 		
+		// 1. Get content of revision
+		$revision = self::find_by_id($rev_id);
+		
+		// 2. Store content to post
+		$obj = new self;
+		$obj->id = $revision->parent_id;
+		$obj->body = $revision->body;
+		$obj->title = $revision->title;
+		$obj->updatedBy = $_SESSION['user_id'];
+		$obj->updated = time();
+		if( ! $obj->update())
+			return false;
+		else
+			$obj = null;
+		
+		// 3. Delete revision
+		$obj = new self;
+		$obj->id = $rev_id;
+		$obj->delete();
+		
+		// 4. Return
+		return true;
 	}
 	
 	function clean_revisions($post_id=null)
