@@ -93,7 +93,7 @@ hr { border: 0 #ccc solid; border-top-width: 1px; clear: both; height: 0; }
 
 /* Headers */
 h2 { padding: 5px 0; color:#555036!important; margin-bottom:40px; font-size: 24px; font-weight: 300; letter-spacing: -1px; border-bottom: 1px solid rgba(0,0,0,.1); }
-h2 span { color:#666!important; font-size:12px; float:right; clear:right; margin-top:5px; letter-spacing: 0;}
+h2 > span { color:#666!important; font-size:12px; float:right; clear:right; margin-top:15px; letter-spacing: 0;}
 h3 { color:#555036; font-size:18px; margin:15px 0 10px; }
 /*
 .tab-dashboard { background-image:url(../images/ico/iface_home.png); }
@@ -703,3 +703,5 @@ pre {
 	width: 100%;
 	overflow: auto;
 }
+
+#timestamp span { float: none; display: inline-block; margin-left: 10px; }
