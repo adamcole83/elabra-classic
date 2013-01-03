@@ -18,7 +18,7 @@
 	
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="https://www.w3.org/1999/xhtml">
+<html xmlns="//www.w3.org/1999/xhtml">
 	<head>
 		<title>Dashboard &laquo; <? echo Department::find_by_id($_SESSION['department'])->name; ?> &laquo; Content Management System</title>
 		<? include('includes/head.php'); ?>
