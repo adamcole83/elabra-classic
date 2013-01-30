@@ -42,7 +42,7 @@
 							<td>
 								<ul>
 									<? $class = ($dept->id == $_SESSION['department']) ? 'bold' : ''; ?>
-									<li onclick="ChangeDepartment(<? echo $dept->id; ?>)" title="<? echo $dept->name; ?>"><span class="<? echo $class; ?>"><? echo $dept->name; ?></span> <small style="color:rgba(85,80,54,.4);">/<? echo $dept->subdir; ?></small></li>
+									<li onclick="ChangeDepartment(<? echo $dept->id; ?>)"><span class="<? echo $class; ?>"><? echo _tw($dept->name,35); ?></span> <small style="color:rgba(85,80,54,.4);">/<? echo $dept->subdir; ?></small></li>
 								</ul>
 							</td>
 							<? $num++; ?>

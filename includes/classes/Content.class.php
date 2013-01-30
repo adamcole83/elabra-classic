@@ -510,7 +510,7 @@ class Content
 	{
 		global $db;
 		
-		$result = $db->query("DELETE FROM ".self::$tblName." WHERE parent_id={$post_id} AND post_type='revision';");
+		$result = $db->query("DELETE FROM ".self::$tblName." WHERE parent_id={$post_id} post_type='revision';");
 		
 		return $result;
 	}
