@@ -7,6 +7,8 @@ $content->department = $_SESSION['department'];
 
 // set identifiers
 $_dept->id = $_SESSION['department'];
+
+$change_permalink = Group::can('change_permalink');
 ?>
 <script type="text/javascript">
 	$(function() {

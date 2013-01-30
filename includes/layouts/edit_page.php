@@ -11,6 +11,9 @@ $_content->id = $_GET['id'];
 $content = $_content->get($_GET['id']);
 $_dept->id = $content->department;
 $page_url = DOMAIN.'/'.$_dept->get()->subdir.'/'.$content->url.'.html';
+
+$change_permalink = Group::can('change_permalink');
+
 ?>
 <script type="text/javascript">
 	$(function() {
