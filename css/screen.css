@@ -51,6 +51,14 @@ hr { border: 0 #ccc solid; border-top-width: 1px; clear: both; height: 0; }
 #toolmenu .container a:hover { text-decoration:none; }
 #toolmenu .msgcount { border:none!important; background:#333; -moz-border-radius:2px; -webkit-border-radius:2px; border-radius:2px; font-weight:bold; }
 
+#toolDepartment ul li span {
+	display: inline-block;
+	max-width: 160px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
 #toolmenu.maintenance {  }
 
 /* Header & tab menu */
