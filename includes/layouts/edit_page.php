@@ -55,8 +55,8 @@ $page_url = DOMAIN.'/'.$_dept->get()->subdir.'/'.$content->url.'.html';
 			}
 		});
 		
-		/*
-window.onbeforeunload = function() {
+/*
+		window.onbeforeunload = function() {
 			if(tinyMCE.activeEditor.isDirty()) {
 				return "The changes you made will be lost if you navigate away from this page.";
 			}else{
