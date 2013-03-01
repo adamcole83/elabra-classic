@@ -16,7 +16,7 @@ class Session
 	function __construct()
 	{
 		session_start();
-		if($_SESSION['user_id'] == 'TEMP')
+		if( isset($_SESSION['user_id']) && $_SESSION['user_id'] == 'TEMP')
 		{
 			$this->logout();
 		}
@@ -88,7 +88,7 @@ class Session
 	  */
 	private function check_login()
 	{
-		if($_SESSION['user_id']){
+		if(isset( $_SESSION['user_id']) ){
 			$this->user_id = $_SESSION['user_id'];
 			$this->logged_in = true;
 		}else{
