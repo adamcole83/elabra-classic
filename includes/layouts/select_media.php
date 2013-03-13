@@ -2,17 +2,17 @@
 	$post = new Content();
 	$post->department = $_SESSION['department'];
 	$count = $post->count('attachment');
-	
+
 	$dirsize = 0;
 	foreach($post->find_all('attachment') as $attachment){
 		$dirsize += @filesize(PUBLIC_ROOT.DS.$attachment->url);
 	}
-	
+
 	$pages = new Paginator;
 	$pages->items_total = ($count > 0) ? $count : 1;
 	$pages->mid_range = 9;
 	$pages->paginate();
-	
+
 ?>
 <? if($post->find_all('attachment')): ?>
 <script type="text/javascript">
@@ -60,14 +60,14 @@
 				<td><input type="checkbox" name="select" value="selected-<? echo $attachment->id; ?>" /></td>
 				<td style="width:600px;">
 					<p class="media-image">
-						<? if(ext2type(file_extension($attachment->url)) != 'image'): ?>
+						<? if(ext2type(file_extension($attachment->url)) != 'image' || ! @file_exists($attachment->url)): ?>
 						<a href="media.php?action=edit&id=<? $attachment->id; ?>"></a><img src="<? echo type_icon($attachment->post_mime_type); ?>" title="<? echo $attachment->title ?>" /></a>
 						<? else: ?>
 						<a href="media.php?action=edit&id=<? $attachment->id; ?>"></a><img src="includes/thumb.php?f=<? echo urlencode(PUBLIC_ROOT.$attachment->url) ?>&width=60&height=60" title="<? echo $attachment->title ?>" /></a>
 						<? endif; ?>
 					</p>
 					<a href="media.php?action=edit&id=<? echo $attachment->id; ?>"><span id="media-title" class="bold"><? echo $attachment->title; ?></span> (<? echo basename($attachment->url); ?>)</a><br />
-					<span id="media-type" onclick="SetSearch(this)"><? echo strtoupper(ext2type(file_extension($attachment->url))); ?></span> - 
+					<span id="media-type" onclick="SetSearch(this)"><? echo strtoupper(ext2type(file_extension($attachment->url))); ?></span> -
 					<span id="media-ext" onclick="SetSearch(this)"><? echo strtoupper(file_extension($attachment->url)); ?></span><br />
 				</td>
 				<td id="media-size"><? echo sizeFormat(@filesize(PUBLIC_ROOT.DS.$attachment->url)); ?></td>
@@ -77,7 +77,7 @@
 				</td>
 			</tr>
 			<? endforeach; ?>
-			
+
 			<? if(!$post->find_all('attachment')): ?>
 			<tr><td colspan="4"><span class="bold">No media found</span></td></tr>
 			<? endif; ?>
