@@ -189,7 +189,7 @@ img.user-status { display: block; float: left; margin-top: -2px; }
 /* Alerts */
 #alert-box, .notification { padding:5px 20px 5px 20px; margin:10px 0; display:none; overflow:hidden; background:rgb(255,255,224); border:1px solid rgb(230,219,85); }
 #alert-box p { margin:0; }
-#alert-box.error { background:#fddddd; color:#c50e0e;border: 1px solid #c50e0e; }
+#alert-box.error, .notification.high { background:#fddddd; color:#c50e0e;border: 1px solid #c50e0e; }
 #alert-box span { float:right; color:#666; cursor:pointer; }
 #alert-box span:hover { text-decoration:underline; }
 
