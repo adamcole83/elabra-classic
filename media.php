@@ -29,9 +29,6 @@
 		<div id="main">
 			<div class="container">
 				<div id="content">
-					<div style="display:block;" class="notification high">
-						<p><strong>Scheduled Maintenance:</strong> Wednesday, March 20, 2013 9:00am - 12:00pm. During this time, you will not be able to access this system.</p>
-					</div>
 					<? include("includes/layouts/".get_page_info('action')."_media.php") ?>
 				</div>
 			</div><!-- .container -->

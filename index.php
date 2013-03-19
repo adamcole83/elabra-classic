@@ -26,9 +26,6 @@
 		<div id="main">
 			<div class="container">
 				<div id="content" class="dboard">
-					<div style="display:block;" class="notification high">
-						<p><strong>Scheduled Maintenance:</strong> Wednesday, March 20, 2013 9:00am - 12:00pm. During this time, you will not be able to access this system.</p>
-					</div>
 					<h2 class="tab-dashboard">Dashboard <span id="timestamp"></span></h2>
 					<div class="clear"></div>
 						
