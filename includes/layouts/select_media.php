@@ -13,6 +13,17 @@
 	$pages->mid_range = 9;
 	$pages->paginate();
 
+	$department = new Department();
+	$department->id = $_SESSION['department'];
+	$dept = $department->get();
+	$media_dir = 'uploads';
+	$path_to_uploads = PUBLIC_ROOT.DS.$dept->subdir.DS.$media_dir.DS;
+
+	if( ! file_exists( PUBLIC_ROOT.$path_to_uploads )) {
+		if( ! @mkdir( PUBLIC_ROOT.$path_to_uploads, 0775, true )) {
+			echo "<div id=\"alert-box\" class=\"error\" style=\"display:block;\">Directory <strong>".$path_to_uploads."</strong> is not writeable. Make sure department directory has permissions of <code>0775</code> or <code>drwxr-xr-x</code>.</div>";
+		}
+	}
 ?>
 <? if($post->find_all('attachment')): ?>
 <script type="text/javascript">
@@ -40,7 +51,7 @@
 	</div>
 </div>
 <div class="controls">
-	<a class="button" href="media.php?action=upload">Upload New</a>
+	<a class="button" href="media.php?action=upload" onclick="ShowModal('includes/layouts/upload_media.php');return false;">Upload New</a>
 </div>
 
 <div class="tableFull">
@@ -105,3 +116,4 @@
 	<? echo $pages->display_pages(); ?>
 </ul>
 <div class="clear"></div>
+
