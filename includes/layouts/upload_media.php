@@ -1,5 +1,6 @@
 <?php
     require_once('../initialize.php');
+    require_once(CORE_PATH.DS.'UploadHandler.php');
 	$department = new Department();
 	$department->id = $_SESSION['department'];
 	$dept = $department->get();
