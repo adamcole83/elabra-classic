@@ -5,4 +5,8 @@ includes/config.php
 uploads/
 developer/
 
+<<<<<<< HEAD
+=======
+# Ignore Sublime Text project files
+>>>>>>> new-uploader
 *.sublime-*

@@ -522,6 +522,20 @@ function HideDialog()
 	});
 }
 
+function ShowModal(url)
+{
+	$('body').css('overflow', 'hidden');
+	$('#modal').load(url).fadeIn();
+
+	return false;
+}
+
+function CloseModal()
+{
+	$('body').css('overflow', 'auto');
+	$('#modal').fadeOut().empty();
+}
+
 // Set Session Message
 function SetMessage(msg)
 {

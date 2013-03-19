@@ -1,17 +1,17 @@
 <?
 
 
-class Session 
+class Session
 {
-	
+
 	private $logged_in = false;
-	private $user_id;
+	public $user_id;
 	private $user_dept;
 	private $message;
-	
+
 	/**
 	  * Session class sets up and stores user session information
-	  * 
+	  *
 	  */
 	function __construct()
 	{
@@ -31,12 +31,12 @@ class Session
 			// actions to take right away if user is not logged in
 		}
 	}
-	
+
 	/**
 	  * Logs user in, stores user_id in session
-	  * 
+	  *
 	  * @param (object) user
-	  * 
+	  *
 	  */
 	public function login($user)
 	{
@@ -54,10 +54,10 @@ class Session
 			User::timestamp($user->id);
 		}
 	}
-	
+
 	/**
 	  * Logout, unsets user session
-	  * 
+	  *
 	  */
 	public function logout()
 	{
@@ -66,24 +66,24 @@ class Session
 	    unset($_SESSION['timeout']);
 	    $this->logged_in = false;
 	}
-	
+
 	/**
 	  * Returns user access status
 	  *
-	  * @return (Boolean) logged_in 
-	  * 
+	  * @return (Boolean) logged_in
+	  *
 	  */
 	public function is_logged_in()
 	{
 		return $this->logged_in;
 	}
-	
+
 	/**
-	  * 
-	  * 
-	  * @param (DataType) 
+	  *
+	  *
+	  * @param (DataType)
 	  * @return (DataType)
-	  * 
+	  *
 	  * @private
 	  */
 	private function check_login()
@@ -96,13 +96,13 @@ class Session
 			$this->logged_in = false;
 		}
 	}
-	
+
 	/**
 	  * Stores a message in session
-	  * 
-	  * @param (string) message 
-	  * @return (string||null) message 
-	  * 
+	  *
+	  * @param (string) message
+	  * @return (string||null) message
+	  *
 	  */
 	public function message($msg=""){
 		if(!empty($msg)){
@@ -111,10 +111,10 @@ class Session
 			return $this->message;
 		}
 	}
-	
+
 	/**
 	  * Checks for messages upon logging in
-	  * 
+	  *
 	  * @private
 	  */
 	private function check_message()
@@ -126,7 +126,7 @@ class Session
 			$this->message = "";
 		}
 	}
-	
+
 	private function check_timeout()
 	{
 		if(isset($_SESSION['timeout'])){
@@ -140,17 +140,17 @@ class Session
 			}
 		}
 	}
-	
+
 	public function user($user_id=null)
 	{
 		$id = isset($user_id) ? $user_id : $this->user_id;
 		return User::find_by_id($id);
 	}
-	
+
 	public function check_access()
 	{
 		$action = $_GET['action'];
-		
+
 		if($action){
 			$action = $action.'s';
 			if($_GET['who'])
@@ -168,7 +168,7 @@ class Session
 			}
 		}
 	}
-	
+
 }
 
 $session = new Session();
