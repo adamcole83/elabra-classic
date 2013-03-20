@@ -4,6 +4,7 @@ includes/initialize.php
 includes/config.php
 uploads/
 developer/
+includes/classes/phpmysqlconfig.php
 
 <<<<<<< HEAD
 =======
