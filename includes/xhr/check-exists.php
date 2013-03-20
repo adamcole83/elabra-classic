@@ -8,9 +8,10 @@ $content = new Content();
 $targetFolder = $_POST['uploadpath']; // Absolute to the root and should match the upload folder in the uploader script
 $url = str_replace( PUBLIC_ROOT, '', $targetFolder ) . $_POST['filename'];
 
-//$exists = $content->find_by_url( $url );
+// Check for existing database content
+$exists = $content->find_by_url( $url );
 
-if (file_exists( $targetFolder . '/' . $_POST['filename'] ))
+if (file_exists( $targetFolder . '/' . $_POST['filename'] ) || $exists)
 {
 	echo 1;
 }

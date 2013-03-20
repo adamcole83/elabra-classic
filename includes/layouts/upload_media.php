@@ -25,7 +25,7 @@
         <div id="queue"></div>
     </form>
     <div class="controls">
-        <a class="button" onclick="CloseModal();return false;">Done</a>
+        <a class="button" id="done" href="media.php?action=multiedit" onclick="CloseModal();return false;">Done</a>
     </div>
 </div>
 
@@ -43,8 +43,11 @@
             },
             'queueID'           : 'queue',
             'uploadScript'      : 'includes/xhr/uploadifive.php',
-            'onUploadComplete'  : function(file, data) {
-                console.log(data);
+            'onUploadComplete'  : function (file, data) {
+                console.log(file);
+                var $done = $("#done");
+                $done.attr('onclick', '');
+                $done.attr('href', $done.attr('href') + '&id[]=' + data);
             }
         });
     });
