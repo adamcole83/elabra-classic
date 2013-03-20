@@ -9,3 +9,4 @@ includes/classes/phpmysqlconfig.php
 
 # Ignore Sublime Text project files
 *.sublime-*
+
