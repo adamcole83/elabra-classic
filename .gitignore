@@ -6,8 +6,5 @@ uploads/
 developer/
 includes/classes/phpmysqlconfig.php
 
-<<<<<<< HEAD
-=======
 # Ignore Sublime Text project files
->>>>>>> new-uploader
 *.sublime-*
