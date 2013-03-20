@@ -2,5 +2,10 @@
 .DS_Store
 includes/initialize.php
 includes/config.php
+includes/phpmysqlconfig.php
 uploads/
 developer/
+
+
+# Ignore Sublime Text project files
+*.sublime-*
