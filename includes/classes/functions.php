@@ -79,11 +79,11 @@ function aasort (&$array, $key)
 function resize_image($width,$height,$max_width=480,$max_height=320)
 {
 	$dimensions = array();
-
+	
 	// proportionally resize image to max sizes
 	$x_ratio = $max_width / $width;
 	$y_ratio = $max_height / $height;
-
+	
 	if( ($width <= $max_width) && ($height <= $max_height) )
 	{
 		$size[0] = $width;
@@ -108,14 +108,14 @@ function resize_image($width,$height,$max_width=480,$max_height=320)
 function instantiate($result_set=null, $fields=array(), $cast='object')
 {
 	global $database;
-
+	
 	if(empty($fields)) {
 		return false;
 	}
 	if($database->num_rows($result_set) == 0) {
 		return false;
 	}
-
+	
 	$object_array = array();
 	foreach($fields as $field) {
 		$attributes[$field] = $field;
@@ -133,7 +133,7 @@ function instantiate($result_set=null, $fields=array(), $cast='object')
     		$object_array[] = $object;
     	}
     }
-
+    
     return $object_array;
 }
 
@@ -153,9 +153,9 @@ function redirect_to( $location = NULL ) {
 
 function check_session() {
 	global $session;
-
+	
 	if(!$session->is_logged_in()){ redirect_to('login.php'); }
-
+	
 	check_environment();
 	is_restricted();
 }
@@ -165,7 +165,7 @@ function is_restricted() {
 	if(Group::can('no_access')){
 		$session->message('You currently have no access to this system.');
 		$session->logout();
-		redirect_to('login.php');
+		redirect_to('login.php');		
 	}
 }
 
@@ -184,18 +184,15 @@ function check_environment()
 }
 
 function get_page_info($part) {
-
-	extract($_GET);
-
 	// set action
-	$action = (isset( $action )) ? $action : 'select';
+	$action = ($_GET['action']) ? $_GET['action'] : 'select';
 	// set current view
 	$gCurrentView = str_replace('.php','',basename($_SERVER['PHP_SELF']));
 	if( $action )
 		$gCurrentView .= '.'.$action;
-	if( isset( $id ) )
-		$gCurrentView .= '.'.$id;
-
+	if( $_GET['id'] )
+		$gCurrentView .= '.'.$_GET['id'];
+	
 	switch($part) {
 		case 'action':
 			return $action;
@@ -236,17 +233,17 @@ function listfiles($leadon='')
 		while (false !== ($file = readdir($handle))) {
 			if($file == "." || $file == "..")
 				continue;
-
+			
 			if(@filetype($leadon.$file) == "dir") {
 				$n++;
 				$applications[$file]['id'] = rand(0, 99).$n;
 				$applications[$file]['directory'] = $file."/";
-
+				
 				if($aHandle = opendir($leadon.$file)) {
 					while (false !== ($aFile = readdir($aHandle))) {
 						if($aFile == "." || $aFile == "..")
 							continue;
-
+						
 						if(preg_match('/yaml/i', $aFile)) {
 							$applications[$file]['yaml'] = $aFile;
 							$yaml = $leadon.$file.DS.$aFile;
@@ -266,7 +263,7 @@ function listfiles($leadon='')
 		}
 		closedir($handle);
 	}
-
+	
 	return $applications;
 }
 
@@ -506,7 +503,7 @@ function sizeFormat($size)
 	if(empty($size)) {
 		return "0 bytes";
 	}
-
+	
 	if($size<1024)
 	{
 		return $size." bytes";
@@ -654,7 +651,7 @@ function get_allowed_mime_types() {
 function get_file_types()
 {
 	static $types = false;
-
+	
 	if( !$types ) {
 		$types = array(
 			'audio'       => array( 'aac', 'ac3',  'aif',  'aiff', 'm3a',  'm4a',   'm4b', 'mka', 'mp1', 'mp2',  'mp3', 'ogg', 'oga', 'ram', 'wav', 'wma' ),
@@ -668,12 +665,12 @@ function get_file_types()
 			'image'		  => array( 'jpg', 'jpeg', 'jpe', 'gif', 'png', 'bmp', 'tif', 'tiff', 'ico' )
 		);
 	}
-
+	
 	return $types;
 }
 
 function ext2type($ext) {
-
+	
 	$ext2type = get_file_types();
 	foreach ( $ext2type as $type => $exts )
 		if ( in_array( $ext, $exts ) )
