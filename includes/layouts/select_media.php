@@ -71,7 +71,7 @@
 				<td><input type="checkbox" name="select" value="selected-<? echo $attachment->id; ?>" /></td>
 				<td style="width:600px;">
 					<p class="media-image">
-						<? if(ext2type(file_extension($attachment->url)) != 'image' || ! @file_exists($attachment->url)): ?>
+						<? if(ext2type(file_extension($attachment->url)) != 'image' || ! @file_exists(PUBLIC_ROOT.$attachment->url)): ?>
 						<a href="media.php?action=edit&id=<? $attachment->id; ?>"></a><img src="<? echo type_icon($attachment->post_mime_type); ?>" title="<? echo $attachment->title ?>" /></a>
 						<? else: ?>
 						<a href="media.php?action=edit&id=<? $attachment->id; ?>"></a><img src="includes/thumb.php?f=<? echo urlencode(PUBLIC_ROOT.$attachment->url) ?>&width=60&height=60" title="<? echo $attachment->title ?>" /></a>
