@@ -30,7 +30,7 @@ $(function() {
 	init();
 	initforms();
 	//initTable();
-	
+
 });
 
 // initializer
@@ -520,6 +520,20 @@ function HideDialog()
 	$('#alert-box').slideUp(300, function() {
 		$(this).removeClass().html('');
 	});
+}
+
+function ShowModal(url)
+{
+	$('body').css('overflow', 'hidden');
+	$('#modal').load(url).fadeIn();
+
+	return false;
+}
+
+function CloseModal()
+{
+	$('body').css('overflow', 'auto');
+	$('#modal').fadeOut().empty();
 }
 
 // Set Session Message
