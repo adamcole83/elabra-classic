@@ -5,7 +5,7 @@ includes/config.php
 uploads/
 developer/
 
-*phpmysqlconfig.php
+phpmysqlconfig.php
 
 # Ignore Sublime Text project files
 *.sublime-*
