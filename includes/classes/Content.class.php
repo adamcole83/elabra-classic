@@ -316,24 +316,24 @@ class Content
 		return self::find_by_sql("SELECT * FROM ".self::$tblName." WHERE department='".$this->department."' AND post_type='attachment' ORDER BY title ASC");
 	}
 	
-	function find_by_id($id=0)
+	public function find_by_id($id=0)
 	{
 		$result_array = self::find_by_sql("SELECT * FROM ".self::$tblName." WHERE id={$id} LIMIT 1");
 		return !empty($result_array) ? array_shift($result_array) : false;
 	}
 	
-	private function find_by_url($url)
+	public function find_by_url($url)
 	{
 		$result_array = self::find_by_sql("SELECT * FROM ".self::$tblName." WHERE url='{$url}' AND department='{$this->department}' LIMIT 1");
 		return !empty($result_array) ? array_shift($result_array) : false;
 	}
 	
-	function list_all_banners()
+	public function list_all_banners()
 	{
 		return self::find_by_sql("SELECT * FROM ".self::$tblName." WHERE department='".$this->department."' AND post_type='attachment' AND title LIKE '%RotatingBanner%' ORDER BY title ASC");
 	}
 	
-	function find_by_sql($sql="")
+	public function find_by_sql($sql="")
 	{
 		global $database;
 		
@@ -449,7 +449,7 @@ class Content
 		return $rev_id;
 	}
 	
-	function restore_to_revision($rev_id=null)
+	public function restore_to_revision($rev_id=null)
 	{
 		if(!$rev_id)
 			return false;
@@ -478,7 +478,7 @@ class Content
 		return true;
 	}
 	
-	function clean_revisions($post_id=null)
+	public function clean_revisions($post_id=null)
 	{
 		global $db;
 		
@@ -506,7 +506,7 @@ class Content
 		return $revisions;
 	}
 	
-	function delete_all_revisions($post_id=null)
+	public function delete_all_revisions($post_id=null)
 	{
 		global $db;
 		

@@ -182,12 +182,12 @@ function check_environment()
 
 function get_page_info($part) {
 	// set action
-	$action = ($_GET['action']) ? $_GET['action'] : 'select';
+	$action = isset($_GET['action']) ? $_GET['action'] : 'select';
 	// set current view
 	$gCurrentView = str_replace('.php','',basename($_SERVER['PHP_SELF']));
 	if( $action )
 		$gCurrentView .= '.'.$action;
-	if( $_GET['id'] )
+	if( isset($_GET['id']) )
 		$gCurrentView .= '.'.$_GET['id'];
 	
 	switch($part) {

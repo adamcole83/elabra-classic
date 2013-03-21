@@ -15,6 +15,8 @@ class Paginator {
 
 	function Paginator()
 	{
+		if ( ! isset($_GET['ipp'])) $_GET['ipp'] = null;
+		if ( ! isset($_GET['page'])) $_GET['page'] = null;
 		$this->current_page = 1;
 		$this->mid_range = 7;
 		$this->items_per_page = (!empty($_GET['ipp'])) ? $_GET['ipp']:$this->default_ipp;

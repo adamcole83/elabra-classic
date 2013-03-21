@@ -8,7 +8,7 @@
 	$post = $content->get('attachment');
 	
 	$datatype = ext2type(mime2ext($post->post_mime_type));
-	$dimensions = ($datatype=='image') ? getimagesize(DOMAIN.$post->url):null;
+	$dimensions = ($datatype=='image') ? getimagesize(PUBLIC_ROOT.$post->url):null;
 	
 	$width = ($dimensions[0] > 480 || $dimensions[1] > 320) ? '480px' : $dimensions[0]. "px";
 	$height = ($dimensions[0] > 480 || $dimensions[1] > 320) ? '320px' : $dimensions[1]. "px";
@@ -42,7 +42,7 @@
 		</tr>
 		<tr>
 			<th><label for="date">Upload Date</label></th>
-			<td><p><? echo time_to_text($post->created); ?></p></td>
+			<td><p><? echo time_to_text($post->post_created); ?></p></td>
 			<td></td>
 		</tr>
 		<tr>

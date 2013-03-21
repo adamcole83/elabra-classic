@@ -5,7 +5,7 @@ class Session
 {
 	
 	private $logged_in = false;
-	private $user_id;
+	public $user_id;
 	private $user_dept;
 	private $message;
 	
