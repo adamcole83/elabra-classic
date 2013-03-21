@@ -26,16 +26,16 @@
 	}
 ?>
 <? if($post->find_all('attachment')): ?>
-<script type="text/javascript">
-	$(function() {
-		$('input#search_table').quicksearch('table#tabulardata tbody tr', {
-			'delay':'200',
-			'loader':'#loader',
-			'stripeRows': ['odd', 'even']
+	<script type="text/javascript">
+		$(function() {
+			$('input#search_table').quicksearch('table#tabulardata tbody tr', {
+				'delay':'200',
+				'loader':'#loader',
+				'stripeRows': ['odd', 'even']
+			});
+			
 		});
-		
-	});
-</script>
+	</script>
 <? endif; ?>
 
 <h2 class="tab-media">Media Library <span><? echo _p($count,'file'); ?> &nbsp;&middot;&nbsp; <? echo sizeFormat($dirsize); ?></span></h2>
