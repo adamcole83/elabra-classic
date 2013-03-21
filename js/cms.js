@@ -10,6 +10,7 @@ var gDuration = 400,
 		phone: /^(?:(?:\+?1\s*(?:[.-]\s*)?)?(?:\(\s*([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9])\s*\)|([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]))\s*(?:[.-]\s*)?)?([2-9]1[02-9]|[2-9][02-9]1|[2-9][02-9]{2})\s*(?:[.-]\s*)?([0-9]{4})(?:\s*(?:#|x\.?|ext\.?|extension)\s*(\d+))?/
 	},
 	xhr = {
+		
 		access:		xhr_path + 'access.php',
 		process:	xhr_path + 'process.php',
 		deploy:		xhr_path + 'deploy.php',
@@ -30,7 +31,7 @@ $(function() {
 	init();
 	initforms();
 	//initTable();
-
+	
 });
 
 // initializer
@@ -131,6 +132,20 @@ function ShowTools(id)
 	}else{
 		$('#' + sToolID).stop().slideDown(gDuration);
 	}
+}
+
+function ShowModal(url)
+{
+	$('body').css('overflow', 'hidden');
+	$('#modal').load(url).fadeIn();
+
+	return false;
+}
+
+function CloseModal()
+{
+	$('body').css('overflow', 'auto');
+	$('#modal').fadeOut().empty();
 }
 
 // Change Department
@@ -520,20 +535,6 @@ function HideDialog()
 	$('#alert-box').slideUp(300, function() {
 		$(this).removeClass().html('');
 	});
-}
-
-function ShowModal(url)
-{
-	$('body').css('overflow', 'hidden');
-	$('#modal').load(url).fadeIn();
-
-	return false;
-}
-
-function CloseModal()
-{
-	$('body').css('overflow', 'auto');
-	$('#modal').fadeOut().empty();
 }
 
 // Set Session Message

@@ -2,7 +2,7 @@
 	// global initializer: needs to be relative to this file
 	require_once('includes/initialize.php');
 	// logout
-	if(isset( $_GET['do'] ) && $_GET['do']=='logout') $session->logout();
+	if($_GET['do']=='logout') $session->logout();
 	// if user is logged in, redirect to index
 	if($session->is_logged_in()) redirect_to('index.php');
 ?>
