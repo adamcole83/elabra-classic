@@ -42,3 +42,4 @@ Thumbs.db
 ########
 .htaccess
 includes/config.php
+uploads/
