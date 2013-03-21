@@ -9,7 +9,7 @@
 				</script>
 				<div class="floatLeft pulse"><?php echo strtoupper(ENVIRONMENT); ?> MODE ACTIVE</div>
 				
-				BRANCH: <?php echo sc_branch(); ?>
+				<?php echo sc_branch(); ?>
 				
 				<?php endif; ?>
 <!-- 				<span onclick="ShowTools('toolMessages')"><span class="msgcount">0</span> Messages</span> -->

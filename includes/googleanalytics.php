@@ -5,8 +5,8 @@
 	_gaq.push(['_trackPageview']);
 	
 	// User information
-	_gaq.push(['_setCustomVar', 1, 'User ID', <?php echo $_SESSION['user_id']; ?>, 2]);
-	_gaq.push(['_setCustomVar', 2, 'Department ID', <?php echo $_SESSION['department']; ?>, 2]);
+	_gaq.push(['_setCustomVar', 1, 'User ID', <?php echo isset($_SESSION['user_id']) ? $_SESSION['user_id'] :null; ?>, 2]);
+	_gaq.push(['_setCustomVar', 2, 'Department ID', <?php echo isset($_SESSION['department']) ? $_SESSION['department'] :null; ?>, 2]);
 	
 	// Pages Data
 	//_gaq.push(['_trackEvent', 'Media', 'Uploaded', 'This is the media title.']);
