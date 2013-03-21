@@ -2,17 +2,28 @@
 	$post = new Content();
 	$post->department = $_SESSION['department'];
 	$count = $post->count('attachment');
-	
+
 	$dirsize = 0;
 	foreach($post->find_all('attachment') as $attachment){
 		$dirsize += @filesize(PUBLIC_ROOT.DS.$attachment->url);
 	}
-	
+
 	$pages = new Paginator;
 	$pages->items_total = ($count > 0) ? $count : 1;
 	$pages->mid_range = 9;
 	$pages->paginate();
-	
+
+	$department = new Department();
+	$department->id = $_SESSION['department'];
+	$dept = $department->get();
+	$media_dir = 'uploads';
+	$path_to_uploads = PUBLIC_ROOT.DS.$dept->subdir.DS.$media_dir.DS;
+
+	if( ! file_exists( PUBLIC_ROOT.$path_to_uploads )) {
+		if( ! @mkdir( PUBLIC_ROOT.$path_to_uploads, 0775, true )) {
+			echo "<div id=\"alert-box\" class=\"error\" style=\"display:block;\">Directory <strong>".$path_to_uploads."</strong> is not writeable. Make sure department directory has permissions of <code>0775</code> or <code>drwxr-xr-x</code>.</div>";
+		}
+	}
 ?>
 <? if($post->find_all('attachment')): ?>
 	<script type="text/javascript">
@@ -41,7 +52,7 @@
 	</div>
 </div>
 <div class="controls">
-	<a class="button" href="media.php?action=upload">Upload New</a>
+	<a class="button" href="media.php?action=upload" onclick="ShowModal('includes/layouts/upload_media.php');return false;">Upload New</a>
 </div>
 
 <div class="tableFull">
@@ -61,14 +72,14 @@
 				<td><input type="checkbox" name="select" value="selected-<? echo $attachment->id; ?>" /></td>
 				<td style="width:600px;">
 					<p class="media-image">
-						<? if(ext2type(file_extension($attachment->url)) != 'image'): ?>
+						<? if(ext2type(file_extension($attachment->url)) != 'image' || ! @file_exists(PUBLIC_ROOT.$attachment->url)): ?>
 						<a href="media.php?action=edit&id=<? $attachment->id; ?>"></a><img src="<? echo type_icon($attachment->post_mime_type); ?>" title="<? echo $attachment->title ?>" /></a>
 						<? else: ?>
 						<a href="media.php?action=edit&id=<? $attachment->id; ?>"></a><img src="includes/thumb.php?f=<? echo urlencode(PUBLIC_ROOT.$attachment->url) ?>&width=60&height=60" title="<? echo $attachment->title ?>" /></a>
 						<? endif; ?>
 					</p>
 					<a href="media.php?action=edit&id=<? echo $attachment->id; ?>"><span id="media-title" class="bold"><? echo $attachment->title; ?></span> (<? echo basename($attachment->url); ?>)</a><br />
-					<span id="media-type" onclick="SetSearch(this)"><? echo strtoupper(ext2type(file_extension($attachment->url))); ?></span> - 
+					<span id="media-type" onclick="SetSearch(this)"><? echo strtoupper(ext2type(file_extension($attachment->url))); ?></span> -
 					<span id="media-ext" onclick="SetSearch(this)"><? echo strtoupper(file_extension($attachment->url)); ?></span><br />
 				</td>
 				<td id="media-size"><? echo sizeFormat(@filesize(PUBLIC_ROOT.DS.$attachment->url)); ?></td>
@@ -78,7 +89,7 @@
 				</td>
 			</tr>
 			<? endforeach; ?>
-			
+
 			<? if(!$post->find_all('attachment')): ?>
 			<tr><td colspan="4"><span class="bold">No media found</span></td></tr>
 			<? endif; ?>
@@ -106,3 +117,4 @@
 	<? echo $pages->display_pages(); ?>
 </ul>
 <div class="clear"></div>
+
