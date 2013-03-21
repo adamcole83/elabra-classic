@@ -1,18 +1,18 @@
 <?
-
+	
 	// instantiate objects
 	$_content = new Content();
 	$_dept = new Department();
-
+	
 	// set identifiers
 	$dept_id = $_SESSION['department'];
 	$_dept->id = $dept_id;
 	$index_id = $_dept->get()->index_id;
 	$_content->department = $dept_id;
-
+	
 	$subdir = $_dept->get()->subdir;
 	$count = $_content->count();
-
+	
 /*
 	$pages = new Paginator;
 	$pages->items_total = ($count > 0) ? $count : 1;
@@ -21,7 +21,7 @@
 ?>
 <? if($_content->find_all()): ?>
 <script type="text/javascript">
-	$(function() {
+	$(function() {		
 		$('input#search_table').quicksearch('table#tabulardata tbody tr', {
 			'delay':'200',
 			'loader':'#loader',
@@ -58,7 +58,7 @@
 <!-- 		<li><img src="images/parent.gif" alt="parent" width="20" height="10" />Parent</li> -->
 	</ul>
 </div>
-<div id="page-select" class="tableFull" style="margin-top:0;">
+<div id="page-select" class="tableFull" style="margin-top:0;">					
 	<table id="tabulardata" class="selector" cellspacing="0">
 		<thead>
 			<tr>
@@ -69,7 +69,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<? foreach($_content->display_loop() as $content): ?>
+			<? foreach($_content->display_loop($pages->limit) as $content): ?>
 				<?php if($content->id == $index_id && ! User::can('modify_home_page')) continue; ?>
 				<tr id="page-<? echo $content->id ?>">
 					<td style="width:3%;"><input type="checkbox" name="select" value="selected-<? echo $content->id; ?>" /></td>
@@ -88,7 +88,7 @@
 					</td>
 				</tr>
 			<? endforeach; ?>
-
+			
 			<? if(!$_content->find_all()): ?>
 			<tr><td colspan="5"><span class="bold">No pages found</span></td></tr>
 			<? endif; ?>
