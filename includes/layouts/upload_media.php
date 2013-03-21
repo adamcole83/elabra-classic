@@ -44,7 +44,6 @@
             'queueID'           : 'queue',
             'uploadScript'      : 'includes/xhr/uploadifive.php',
             'onUploadComplete'  : function (file, data) {
-                console.log(file);
                 var $done = $("#done");
                 $done.attr('onclick', '');
                 $done.attr('href', $done.attr('href') + '&id[]=' + data);
