@@ -1,5 +1,5 @@
 <?php
-!defined(DB_SERVER) ? require __DIR__ . '/../phpmysqlconfig.php' : null;
+!defined(DB_SERVER) ? require __DIR__ . '/../config.php' : null;
 
 class MySQLDatabase {
 	
