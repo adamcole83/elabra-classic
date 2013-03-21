@@ -38,10 +38,7 @@ function get_parent($parent)
 
 function sc_branch()
 {
-	$stringfromfile = file('.git/HEAD', FILE_USE_INCLUDE_PATH);
-	$stringfromfile = $stringfromfile[0]; //get the string from the array
-	$explodedstring = explode("/", $stringfromfile); //seperate out by the "/" in the string
-	return $explodedstring[2]; //get the one that is always the branch name
+	return "git branch: " .exec("git rev-parse --abbrev-ref HEAD");
 }
 
 function increment_string($str, $separator = '_', $first = 1)

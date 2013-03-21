@@ -22,6 +22,7 @@
 			'loader':'#loader',
 			'stripeRows': ['odd', 'even']
 		});
+		
 	});
 </script>
 <? endif; ?>
