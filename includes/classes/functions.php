@@ -38,7 +38,10 @@ function get_parent($parent)
 
 function sc_branch()
 {
-	return "git branch: " . exec("git rev-parse --abbrev-ref HEAD");
+	$stringfromfile = file('.git/HEAD', FILE_USE_INCLUDE_PATH);
+	$stringfromfile = $stringfromfile[0]; //get the string from the array
+	$explodedstring = explode("/", $stringfromfile); //seperate out by the "/" in the string
+	return $explodedstring[2]; //get the one that is always the branch name
 }
 
 function increment_string($str, $separator = '_', $first = 1)
@@ -182,14 +185,13 @@ function check_environment()
 
 function get_page_info($part) {
 	// set action
-	$action = (isset( $_GET['action'] )) ? $_GET['action'] : 'select';
-	$id = (isset( $_GET['id'] )) ? $_GET['id'] : null;
+	$action = ($_GET['action']) ? $_GET['action'] : 'select';
 	// set current view
 	$gCurrentView = str_replace('.php','',basename($_SERVER['PHP_SELF']));
 	if( $action )
 		$gCurrentView .= '.'.$action;
-	if(isset( $id ))
-		$gCurrentView .= '.'.$id;
+	if( $_GET['id'] )
+		$gCurrentView .= '.'.$_GET['id'];
 	
 	switch($part) {
 		case 'action':
