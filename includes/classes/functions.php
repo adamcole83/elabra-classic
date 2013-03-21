@@ -38,7 +38,7 @@ function get_parent($parent)
 
 function sc_branch()
 {
-	return "git branch: " . exec("git rev-parse --abbrev-ref HEAD");
+	return "git branch: " .exec("git rev-parse --abbrev-ref HEAD");
 }
 
 function increment_string($str, $separator = '_', $first = 1)
