@@ -91,7 +91,7 @@ class MySQLDatabase {
 		if (!$result) {
 			$output = "Database query failed: " . mysql_error() . "<br /><br />";
 			$output .= "Last SQL query: " . $this->last_query;
-			error_log($output);
+			
 			die( $output );
 		}
 	}

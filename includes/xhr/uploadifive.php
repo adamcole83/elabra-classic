@@ -6,7 +6,6 @@ $posts = new Content();
 
 // Set the uplaod directory
 $uploadDir = $_POST['uploadpath'];
-error_log('$_POST[uploadpath] = '.$uploadDir);
 
 // Set the allowed file extensions
 $allowed_mime_types = get_allowed_mime_types();
@@ -55,9 +54,6 @@ if (!empty($_FILES) && $_POST['token'] == $verifyToken) {
 			$post_id = $post->save();
 		}
 
-		//error_log($tempFile);
-		error_log('dirname$targetFile = '.dirname($targetFile));
-
 		// Set permissions for upload
 		chmod(dirname($targetFile), 0777);
 
@@ -69,7 +65,6 @@ if (!empty($_FILES) && $_POST['token'] == $verifyToken) {
 
 		if ( ! file_exists($targetFile))
 		{
-			error_log(basename($targetFile)." doesn't exist.");
 			echo 'File wasn\'t fully uploaded, please try again';
 			die();
 		}
