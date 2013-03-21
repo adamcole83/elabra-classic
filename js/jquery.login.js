@@ -76,8 +76,6 @@
 					data.push({name: 'bypass', value: options.bypass});
 				}
 				
-				console.log(data);
-				
 				$.ajax({
 					type	: 'POST',
 					url		: options.xhrLDAP,
