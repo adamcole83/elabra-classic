@@ -81,3 +81,26 @@
 	We're sorry.  SWFUpload could not load.  You may need to install or upgrade Flash Player.
 	Visit the <a href="http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash">Adobe website</a> to get the Flash Player.
 </div>
+<script type="text/javascript">
+    <?php $timestamp = time(); ?>
+    $(function () {
+        $('#file_upload').uploadifive({
+            'auto'              : true,
+            'checkScript'       : 'includes/xhr/check-exists.php',
+            'formData'          : {
+                'uploadpath': '<?php echo $path_to_uploads; ?>',
+                'user_id'   : '<?php echo $session->user_id; ?>',
+                'timestamp' : '<?php echo $timestamp; ?>',
+                'token'     : '<?php echo md5("unique_salt".$timestamp); ?>'
+            },
+            'queueID'           : 'queue',
+            'uploadScript'      : 'includes/xhr/uploadifive.php',
+            'onUploadComplete'  : function (file, data) {
+                console.log(file);
+                var $done = $("#done");
+                $done.attr('onclick', '');
+                $done.attr('href', $done.attr('href') + '&id[]=' + data);
+            }
+        });
+    });
+</script>
