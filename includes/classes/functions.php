@@ -1047,9 +1047,9 @@ function datetime($when = null) {
  *     $trunc - Number of characters to truncate to (default 100, 0 to disable).
  */
 function sanitize($string, $force_lowercase = true, $anal = false, $trunc = 100) {
-	$strip = array("~", "`", "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "_", "=", "+", "[", "{", "]",
+	$strip = array("~", "`", "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "=", "+", "[", "{", "]",
 		"}", "\\", "|", ";", ":", "\"", "'", "&#8216;", "&#8217;", "&#8220;", "&#8221;", "&#8211;", "&#8212;",
-		"—", "–", ",", "<", ".", ">", "/", "?");
+		",", "<", ".", ">", "/", "?");
 	$clean = trim(str_replace($strip, "", strip_tags($string)));
 	$clean = preg_replace('/\s+/', "-", $clean);
 	$clean = ($anal ? preg_replace("/[^a-zA-Z0-9]/", "", $clean) : $clean);

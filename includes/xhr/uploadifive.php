@@ -18,7 +18,7 @@ if (!empty($_FILES) && $_POST['token'] == $verifyToken) {
 	
 	// Validate the filetype
 	$fileParts = pathinfo($_FILES['Filedata']['name']);
-	$targetFile = $uploadDir . join('.', array(sanitize( $fileParts['filename'] ), file_extension( $fileParts['extension'] )));
+	$targetFile = $uploadDir . join('.', array(sanitize( $fileParts['filename'], false ), file_extension( $fileParts['extension'] )));
 
 	if (in_array( strtolower( $fileParts['extension'] ), $fileTypes )) {
 
