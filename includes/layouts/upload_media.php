@@ -7,10 +7,9 @@
     $media_dir = 'uploads';
     $path_to_uploads = PUBLIC_ROOT.DS.$dept->subdir.DS.$media_dir.DS;
 
-    if( ! file_exists( PUBLIC_ROOT.$path_to_uploads )) {
-        if( ! @mkdir( PUBLIC_ROOT.$path_to_uploads, 0775, true )) {
-            echo "<div id=\"alert-box\" class=\"error\" style=\"display:block;\">Directory <strong>".$path_to_uploads."</strong> is not writeable. Make sure department directory has permissions of <code>0775</code> or <code>drwxr-xr-x</code>.</div>";
-        }
+    if ( ! is_really_writeable($path_to_uploads))
+    {
+         echo "<div id=\"alert-box\" class=\"error\" style=\"display:block;\">Directory <strong>".$path_to_uploads."</strong> is not writeable. Make sure department directory has permissions of <code>0775</code> or <code>drwxr-xr-x</code>.</div>";
     }
 ?>
 
