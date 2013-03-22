@@ -1617,29 +1617,6 @@ function now($when) {
 	return strtotime($when);
 }
 
-function is_really_writeable($path, $filemode = 0775)
-{
-	if (file_exists($path) && is_writable($path))
-	{
-		return true;
-	}
-
-	if ( ! file_exists($path))
-	{
-		if (mkdir($path, $filemode))
-		{
-			return true;
-		}
-	}
-
-	if (chmod($path, $filemode))
-	{
-		return true;
-	}
-	
-	return false;
-}
-
 /**
  * Function: comma_sep
  * Convert a comma-seperated string into an array of the listed values.

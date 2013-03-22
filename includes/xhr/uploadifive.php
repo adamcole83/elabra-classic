@@ -7,12 +7,6 @@ $posts = new Content();
 // Set the uplaod directory
 $uploadDir = $_POST['uploadpath'];
 
-if ( ! is_really_writeable($uploadDir))
-{
-	echo "Upload directory is not writable, please contact support.";
-	die();
-}
-
 // Set the allowed file extensions
 $allowed_mime_types = get_allowed_mime_types();
 $fileTypes = array_keys( $allowed_mime_types );
