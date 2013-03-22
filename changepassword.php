@@ -1,6 +1,8 @@
 <?
 require_once('includes/initialize.php');
 
+error_log("GIT IS WORKING");
+
 // if logged in, bypass
 if($session->is_logged_in()){
 	//redirect_to('logout.php?r=changepassword.php');
