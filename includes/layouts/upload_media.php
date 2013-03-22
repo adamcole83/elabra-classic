@@ -44,9 +44,11 @@
             'queueID'           : 'queue',
             'uploadScript'      : 'includes/xhr/uploadifive.php',
             'onUploadComplete'  : function (file, data) {
-                var $done = $("#done");
-                $done.attr('onclick', '');
-                $done.attr('href', $done.attr('href') + '&id[]=' + data);
+                if ( ! isNaN(data) ) {
+                    var $done = $("#done");
+                    $done.attr('onclick', '');
+                    $done.attr('href', $done.attr('href') + '&id[]=' + data);
+                }
             }
         });
     });
