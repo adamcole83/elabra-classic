@@ -47,3 +47,15 @@
 	<a class="button" href="javascript:void(0);" onclick="Save('department.redirect')">Save</a>
 </div>
 <div class="clear"></div>
+
+<script type="text/javascript">
+	$("#import_id").change(function() {
+		var confirmed = confirm("Selecting a department will copy all of its contents to the department created here.\n\nAre you sure?");
+
+		if (confirmed == true) {
+			$(this).unbind("change");
+		} else {
+			$(this).val('');
+		}
+	});
+</script>
