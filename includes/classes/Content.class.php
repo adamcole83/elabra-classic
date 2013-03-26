@@ -260,7 +260,7 @@ class Content
 					while ($item = $db->fetch_assoc($postmeta))
 					{
 						// Set new values for post meta
-						$metavalue = unserialize($item['meta_value'])
+						$metavalue = unserialize($item['meta_value']);
 						if (isset( $metavalue['object_id'] ))
 						{
 							$metavalue['object_id'] = $new_parent_id;
