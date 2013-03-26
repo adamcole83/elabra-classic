@@ -11,6 +11,8 @@ class Department
 	public $subdir;
 	public $index_id;
 	public $dev_mode;
+	public $import_id = null;
+	private $duplicate_content = array();
 	
 	public function get()
 	{
@@ -42,10 +44,14 @@ class Department
 			$sql .= join("', '", array_values($attributes));
 			$sql .= "')";
 			
-			error_log('[Department:create()]: '.$sql,0);
-			
 			if($database->query($sql)){
 				$this->id = $database->insert_id();
+
+				if (isset($this->import_id))
+				{
+					$this->duplicate($this->import_id, $this->id);
+				}
+
 				return true;
 			}else{
 				return false;
@@ -204,10 +210,61 @@ class Department
 			}
 		}
 	}
-	
+
+	public function duplicate($original_id = null, $duplicate_id = null)
+	{
+		if ( ! isset($original_id) || ! isset($duplicate_id))
+		{
+			return false;
+		}
+
+		global $db, $session;
+
+		/* Step 1: Duplicate content */
+		Content::duplicate( $original_id, $duplicate_id, array(
+			'original_id'  => $original_id,
+			'duplicate_id' => $duplicate_id,
+			'post_created' => time(),
+			'post_updated' => time(),
+			'updated_by'   => $session->user_id
+		));
+
+		/* Step 2: Duplicate users (Add to assoc) */
+		$users = self::getAssocUser($original_id);
+		if ( ! empty($users))
+		{
+			foreach ($users as $user)
+			{
+				$db->insert('usermeta', array(
+					'user_id'    => $user->id,
+					'meta_key'   => 'department',
+					'meta_value' => $duplicate_id
+				));
+			}
+		}
+
+		/* Step 3: Duplicate menu items */
+		$deptmeta = $db->select('deptmeta', '*', array(
+			'dept_id' => $original_id
+		));
+		if ($deptmeta)
+		{
+			while ($item = $db->fetch_assoc($deptmeta))
+			{
+				$db->insert('deptmeta', array(
+					'dept_id'    => $duplicate_id,
+					'meta_key'   => $db->escape_value($item['meta_key']),
+					'meta_value' => $db->escape_value($item['meta_value'])
+				));
+			}
+		}
+
+		/* Step 4: Duplicate uploads */
+		copyr( PUBLIC_ROOT.DS.self::grab($original_id)->subdir, PUBLIC_ROOT.DS.self::grab($duplicate_id)->subdir );
+	}
+
 	public function relocate($from='', $to='')
 	{
-		error_log('...Relocating', 0);
 		// Query all content
 		$posts = Content::find_by_sql("SELECT * FROM cms.posts WHERE department = {$this->id}");
 		

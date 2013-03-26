@@ -202,8 +202,77 @@ class Content
 	
 	public function display_loop($limit='', $divider=" – ")
 	{
-		$this->build_page_loop(0,$limit,0,$divider);
+		$this->build_page_loop( 0, $limit, 0, $divider );
 		return (object) $this->loop_items;
+	}
+
+	public static function duplicate($original_id = null, $duplicate_id = null, $options = array(), $old_parent = 0, $new_parent = 0)
+	{
+		global $db;
+
+		// Build the query string & query it!
+		$query = sprintf( "SELECT * FROM ".self::$tblName." WHERE department = %d AND parent_id = %d", $original_id, $old_parent );
+		$items = self::find_by_sql( $query );
+
+		// If there are no items, we'll just return false
+		if ( ! empty( $items ))
+		{
+			// Loop through the content
+			foreach ($items as $item)
+			{
+				// Store the original ID for use later
+				$old_parent_id = $item->id;
+
+				// Remove ID so it can be given a new one
+				$item->id = null;
+
+				// Update items with options
+				foreach ($options as $key => $value)
+				{
+					// We may have additional values so let's make sure
+					// we're not setting anything we shouldn't be
+					if (isset($item->$key))
+					{
+						$item->$key = $value;
+					}
+				}
+
+				// Change the parent ID
+				$item->parent_id = $new_parent;
+
+				// Set the new department ID
+				$item->department = $duplicate_id;
+
+				// Replace the directory in the GUID (URL)
+				$item->guid = preg_replace("/\/" . Department::grab( $original_id )->subdir . "\//i", '/' . Department::grab( $duplicate_id )->subdir . '/', $item->guid);
+
+				// Insert new content into db
+				$new_parent_id = $item->create();
+
+				// Duplicate post meta
+				$postmeta = $db->select('postmeta', '*', array(
+					'post_id' => $old_parent_id
+				));
+				if ($postmeta)
+				{
+					while ($item = $db->fetch_assoc($postmeta))
+					{
+						$db->insert('postmeta', array(
+							'post_id'    => $new_parent_id,
+							'meta_key'   => $item['meta_key'],
+							'meta_value' => preg_replace( $old_parent_id, $new_parent_id, $item['meta_value'])
+						));
+					}
+				}
+
+				// Query the children
+				self::duplicate( $original_id, $duplicate_id, $options, $old_parent_id, $new_parent_id );
+			}
+		}
+		else
+		{
+			return false;
+		}
 	}
 	
 	private function breadcrumb($id=0, $item=null)
