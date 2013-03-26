@@ -1,6 +1,4 @@
-<?
-	$content = new Content();
-?>
+<?php $content = new Content(); ?>
 <h2 class="tab-department">New Department</h2>
 <div id="alert-box">&nbsp;</div>
 <form class="editor">
@@ -20,6 +18,23 @@
 			<td><input class="required" type="text" name="subdir" id="subdir" value="" /></td>
 			<td><label class="error" for="subdir" id="subdir_error"><span>(required)</span></label></td>
 		</tr>
+		<?php if (Group::can('duplicate_data')): ?>
+		<tr>
+			<th><label for="import_id">Import Data From</label></th>
+			<td>
+				<select name="import_id" id="import_id">
+					<?php if ( ! Department::find_all()): ?>
+						<option selected="selected" disabled="disabled" value="">No departments found</option>
+					<?php else: ?>
+						<option value=""></option>
+						<? foreach(Department::find_all() as $dept): ?>
+						<option value="<? echo $dept->id; ?>"><? echo $dept->name; ?></option>
+						<? endforeach; ?>
+					<?php endif; ?>
+				</select>
+			</td>
+		</tr>
+		<?php endif; ?>
 		<tr>
 			<th><label for="dev_mode">Developer Mode</label></th>
 			<td><p><input type="radio" checked="checked" name="dev_mode" value="1" /> On <input type="radio" name="dev_mode" value="2" /> Off</p></td>
@@ -32,3 +47,15 @@
 	<a class="button" href="javascript:void(0);" onclick="Save('department.redirect')">Save</a>
 </div>
 <div class="clear"></div>
+
+<script type="text/javascript">
+	$("#import_id").change(function() {
+		var confirmed = confirm("Selecting a department will copy all of its contents to the department created here.\n\nAre you sure?");
+
+		if (confirmed == true) {
+			$(this).unbind("change");
+		} else {
+			$(this).val('');
+		}
+	});
+</script>
