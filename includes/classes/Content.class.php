@@ -244,7 +244,9 @@ class Content
 				$item->department = $duplicate_id;
 
 				// Replace the directory in the GUID (URL)
-				$item->guid = preg_replace("/\/" . Department::grab( $original_id )->subdir . "\//i", '/' . Department::grab( $duplicate_id )->subdir . '/', $item->guid);
+				$original_subdir  = Department::grab( $original_id )->subdir;
+				$duplicate_subdir = Department::grab( $duplicate_id )->subdir;
+				$item->guid = preg_replace("/\/" . $original_subdir . "\//i", '/' . $duplicate_subdir . '/', $item->guid);
 
 				// Insert new content into db
 				$new_parent_id = $item->create();
@@ -257,10 +259,26 @@ class Content
 				{
 					while ($item = $db->fetch_assoc($postmeta))
 					{
+						// Set new values for post meta
+						$metavalue = unserialize($item['meta_value'])
+						if (isset( $metavalue['object_id'] ))
+						{
+							$metavalue['object_id'] = $new_parent_id;
+						}
+						if (isset( $metavalue['department'] ))
+						{
+							$metavalue['department'] = $duplicate_id;
+						}
+						if ( isset( $metavalue['url'] ))
+						{
+							$metavalue['url'] = preg_replace("/\/" . $original_subdir . "\//i", '/' . $duplicate_subdir . '/', $metavalue['url']);
+						}
+
+						// Insert new post meta
 						$db->insert('postmeta', array(
 							'post_id'    => $new_parent_id,
-							'meta_key'   => $item['meta_key'],
-							'meta_value' => preg_replace( $old_parent_id, $new_parent_id, $item['meta_value'])
+							'meta_key'   => $db->escape_value($item['meta_key']),
+							'meta_value' => $db->escape_value( serialize($metavalue) )
 						));
 					}
 				}
