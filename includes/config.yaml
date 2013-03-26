@@ -1,6 +1,6 @@
 root: "admin"
 site-name: "Content Management System"
-version: "1.3.3"
+version: "1.3.4"
 project: "elabra-classic"
 author: "Adam Jenkins"
 page:

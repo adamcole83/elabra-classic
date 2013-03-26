@@ -30,7 +30,7 @@ defined('LIB_PATH') ? null : define('LIB_PATH', SITE_ROOT.DS.'includes');
 
 defined('CORE_PATH') ? null : define('CORE_PATH', LIB_PATH.DS.'classes');
 
-defined('CMS_VERSION') ? null : define('CMS_VERSION', '1.3.3');
+defined('CMS_VERSION') ? null : define('CMS_VERSION', '1.3.4');
 
 // load config
 require_once(LIB_PATH.DS.'config.php');
