@@ -8,7 +8,7 @@
 	$password = trim($_POST['password']);
 	$domain = trim($_POST['domain']);
 	$dn = "dc=edu";
-	$ds = ldap_connect("ldap.missouri.edu",3268);
+	$ds = ldap_connect("ldap.missouri.edu") or die("Could not connect to LDAP");
 	$filter = 'sAMAccountName='.$usr;
 	$attributes = array(
 						'last_name'		=> 'sn',
