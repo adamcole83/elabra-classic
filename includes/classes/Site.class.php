@@ -78,8 +78,8 @@ echo $this->department;
 			for( $i=0; $i<8; $i++ ):
 				if( $this->department->index->id == $this->page->menu[$i]->id ) continue;
 				if( $this->page->menu[$i] ) {
-					//$ext = (!preg_match('/(https?|ftp)://(-\.)?([^\s/?\.#-]+\.?)+(/[^\s]*)?$/iS', $this->page->menu[$i]->url)) ? '.html' : '';
-					$html .= '<li><a href="' . $this->page->menu[$i]->url . ".html" .'">' .$this->page->menu[$i]->title . '</a></li>';
+					$ext = (!preg_match('/(https?|ftp)://(-\.)?([^\s/?\.#-]+\.?)+(/[^\s]*)?$/iS', $this->page->menu[$i]->url)) ? '.html' : '';
+					$html .= '<li><a href="' . $this->page->menu[$i]->url . $ext .'">' .$this->page->menu[$i]->title . '</a></li>';
 				}else{
 					$html .= '<li><a href="#">Set Menu Item</a></li>';
 				}
