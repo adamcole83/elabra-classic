@@ -32,6 +32,11 @@ defined('CORE_PATH') ? null : define('CORE_PATH', LIB_PATH.DS.'classes');
 
 defined('CMS_VERSION') ? null : define('CMS_VERSION', '1.3.4');
 
+defined('STATHAT_EZKEY') ? null : define('STATHAT_EZKEY', 'adamcole83@gmail.com');
+
+// load stathat
+require_once(CORE_PATH.DS.'stathat.php');
+
 // load config
 require_once(LIB_PATH.DS.'config.php');
 
@@ -51,6 +56,7 @@ require_once(CORE_PATH.DS.'EmailNotification.class.php');
 require_once(CORE_PATH.DS.'Pagination.class.php');
 require_once(CORE_PATH.DS.'Diff.php');
 require_once(CORE_PATH.DS.'Diff'.DS.'Renderer'.DS.'Html'.DS.'SideBySide.php');
+
 
 
 // load site specific objects

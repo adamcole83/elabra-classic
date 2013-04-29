@@ -10,7 +10,7 @@ elseif($_POST['session'])
 	$array = explode(":", $_POST['session']);
 	$key = $array[0];
 	$value = $array[1];
-	
+
 	if(!empty($value)) {
 		unset($_SESSION[$key]);
 		$_SESSION[$key] = $value;

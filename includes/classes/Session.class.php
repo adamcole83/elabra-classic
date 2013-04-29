@@ -50,6 +50,7 @@ class Session
 			{
 				$this->user_dept = $_SESSION['department'];
 			}
+
 			$this->logged_in = true;
 			User::timestamp($user->id);
 		}
