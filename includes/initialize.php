@@ -1,4 +1,6 @@
-<?
+<?php
+
+error_reporting(E_ALL ^ E_NOTICE);
 
 // define site basics
 defined('DEPARTMENT') ? null : define('DEPARTMENT', 'IT');
