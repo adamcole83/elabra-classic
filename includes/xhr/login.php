@@ -30,7 +30,7 @@
 	}
 	function bind($ds,$usr,$pwd) {
 		if( ldap_set_option($ds, LDAP_OPT_PROTOCOL_VERSION, 3) /*&& ldap_start_tls($ds)*/ ) {
-			return (   @ldap_bind($ds, $usr.'@umh.edu', $pwd)
+			return (   ldap_bind($ds, $usr.'@umh.edu', $pwd)
 					|| @ldap_bind($ds, $usr.'@col.missouri.edu', $pwd)
 					|| @ldap_bind($ds, $usr.'@umsystem.umsystem.edu', $pwd)
 					|| @ldap_bind($ds, $usr.'@missouri.edu', $pwd)
