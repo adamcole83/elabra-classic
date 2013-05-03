@@ -35,7 +35,13 @@ function get_parent($parent)
 		echo Content::find_by_id($parent)->title;
 	}
 }
-
+function showRequired($post='', $title='', $submit='submit')
+{
+	if(isset($_POST[$submit]) && empty($post)) {
+		$title = !empty($title) ? $title.' is ' : null;
+		return '<span class="red">'.ucfirst($title.'required').'</span>';
+	}
+}
 function sc_branch()
 {
 	return "git branch: " .exec("git rev-parse --abbrev-ref HEAD");
