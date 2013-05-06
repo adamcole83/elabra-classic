@@ -65,6 +65,6 @@
 				<p class="small">If you feel you have reached this message in error, please contact the office of communication at (573) 882-0348.</p>
 			</div>
 		</div>
-		<?php include_once('includes/googleanalytics.php'); ?>
+		<?php include('includes/footer.php'); ?>
 	</body>
 </html>

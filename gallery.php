@@ -35,12 +35,6 @@
 				</div>
 			</div><!-- .container -->
 		</div><!-- #main -->
-		<div id="loader">
-			&nbsp;
-		</div>
-		<!--[if lte IE 7]>
-		<div id="bwarn"><p>Please use Mozilla Firefox 3.6+, Google Chrome 9.0+, Apple Safari 5+ or Internet Explorer 8+ or you may risk losing data!</p></div>
-		<![endif]-->
-		<?php include_once('includes/googleanalytics.php'); ?>
+		<?php include('includes/footer.php'); ?>
 	</body>
 </html>
