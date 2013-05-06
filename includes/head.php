@@ -20,3 +20,4 @@
 		<script type="text/javascript">
 			FreshWidget.init("", {"queryString": "", "buttonText": "Support", "buttonColor": "black", "buttonBg": "#eeb211", "alignment": "4", "offset": "335px", "url": "http://medweb.freshdesk.com", "assetUrl": "http://assets.freshdesk.com/widget"} );
 		</script>
+		
