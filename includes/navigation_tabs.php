@@ -9,7 +9,7 @@
 		<? endif; ?>
 				
 		<? if(Group::can('manage_calendar')): ?>
-<!-- 		<li id="tabcalendar"><a href="calendar.php">Calendar</a></li> -->
+		<!-- <li id="tabcalendar"><a href="calendar.php">Calendar</a></li> -->
 		<? endif; ?>
 		
 		<? if(Group::can('view_departments')): ?>
@@ -21,11 +21,11 @@
 		<? endif; ?>
 		
 		<? if(Group::can('deploy_applications')): ?>
-<!-- 		<li id="tabdeploy"><a href="deploy.php">Deploy</a></li> -->
+		<!-- <li id="tabdeploy"><a href="deploy.php">Deploy</a></li> -->
 		<? endif; ?>
 		
 		<? if(Group::can('package_applications')): ?>
-<!-- 		<li id="tabpack"><a href="pack.php">Package</a></li> -->
+		<!-- <li id="tabpack"><a href="pack.php">Package</a></li> -->
 		<? endif; ?>
 	</ul>
 </div><!-- #menu -->
