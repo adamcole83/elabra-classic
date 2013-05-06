@@ -27,9 +27,5 @@
 		<? if(Group::can('package_applications')): ?>
 <!-- 		<li id="tabpack"><a href="pack.php">Package</a></li> -->
 		<? endif; ?>
-		<li id="tabhelp" style="margin-left:5px;position:relative;"><a href="help.php">
-			Help & Support
-			<img style="position:absolute;top:-10px;right:-20px" src="images/new.png" alt="new" width="" height="" />
-		</a></li>
 	</ul>
 </div><!-- #menu -->
