@@ -13,11 +13,11 @@
 		</script>
 		<script type="text/javascript" src="js/jsload.php"></script>
 
-		<script type="text/javascript" src="http://assets.freshdesk.com/widget/freshwidget.js"></script>
+		<script type="text/javascript" src="//assets.freshdesk.com/widget/freshwidget.js"></script>
 		<style type="text/css" media="screen, projection">
-			@import url(http://assets.freshdesk.com/widget/freshwidget.css); 
+			@import url(//assets.freshdesk.com/widget/freshwidget.css);
+			.widget-ovelay { background-color: #33332d !important; }
 		</style> 
 		<script type="text/javascript">
-			FreshWidget.init("", {"queryString": "", "buttonText": "Support", "buttonColor": "black", "buttonBg": "#eeb211", "alignment": "4", "offset": "335px", "url": "http://medweb.freshdesk.com", "assetUrl": "http://assets.freshdesk.com/widget"} );
+			FreshWidget.init("", {"queryString": "", "buttonText": "Support", "buttonColor": "black", "buttonBg": "#eeb211", "alignment": "4", "offset": "335px", "url": "//medweb.freshdesk.com", "assetUrl": "//assets.freshdesk.com/widget"} );
 		</script>
-		
