@@ -1,10 +1,12 @@
 <?php
 	
+	ini_set('display_errors', 1);
+
 	require_once('includes/initialize.php');
 	
 	error_reporting(E_ALL);
 
-	if( $_POST['user'] ) {
+	if( isset($_POST['user']) ) {
 		$usr = $_POST['username'];
 		$pwd = $_POST['password'];
 		$dom = '@umh.edu';
@@ -73,7 +75,7 @@
 					<form action="<? $_SERVER['PHP_SELF'] ?>" method="post">
 						<p>
 							<label for="username">Your Username</label>
-							<input type="text" id="username" name="username" value="<? echo $_POST['username']; ?>" />
+							<input type="text" id="username" name="username" value="<?php echo isset($_POST['username']) ? $_POST['username'] : ""; ?>" />
 						</p>
 						<p>
 							<label for="password">Your Password</label>
@@ -86,7 +88,7 @@
 						</p>
 						<p>
 							<label for="user">Lookup User</label>
-							<input type="text" id="user" name="user" value="<? echo $_POST['user'] ?>" />
+							<input type="text" id="user" name="user" value="<?php echo isset($_POST['user']) ? $_POST['user'] : ""; ?>" />
 						</p>
 						<p>
 							<input type="submit" value="Search" />
