@@ -23,8 +23,7 @@
 		
 		$ds = ldap_connect("ldap.missouri.edu",3268);
 		
-		if(	ldap_set_option($ds, LDAP_OPT_PROTOCOL_VERSION, 3)
-			&& ldap_start_tls($ds))
+		if(	ldap_set_option($ds, LDAP_OPT_PROTOCOL_VERSION, 3))
 		{
 			$ldapbind = ldap_bind($ds, $usr.$dom, $pwd);
 			
