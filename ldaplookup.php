@@ -2,6 +2,8 @@
 	
 	require_once('includes/initialize.php');
 	
+	error_reporting(E_ALL);
+
 	if( $_POST['user'] ) {
 		$usr = $_POST['username'];
 		$pwd = $_POST['password'];
@@ -17,7 +19,7 @@
 			$attributes = array();
 		}
 		
-		$ds = ldap_connect("ldap.missouri.edu",3268); 
+		$ds = ldap_connect("ldap.missouri.edu",3268);
 		
 		if(	ldap_set_option($ds, LDAP_OPT_PROTOCOL_VERSION, 3)
 			&& ldap_start_tls($ds))
@@ -25,8 +27,7 @@
 			$ldapbind = ldap_bind($ds, $usr.$dom, $pwd);
 			
 			$sr = ldap_search($ds, $dn, $filter, $attributes);
-			$entries = ldap_get_entries($ds,$sr);
-			$entry = $entries[0];
+			$entry = ldap_first_entry($ds,$sr);
 			
 			foreach( $entry as $key => $array ) {
 				if(is_array($array)) {
