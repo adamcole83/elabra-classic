@@ -15,13 +15,13 @@
 		
 		if($_POST['detail'] == 'no')
 		{
-			$attributes = array('sn', 'samaccountname', 'title', 'telephonenumber', 'givenname', 'department', 'userprincipalname', 'mail');
+			$attributes = array('sn', 'samaccountname', 'title', 'telephonenumber', 'givenname', 'department', 'userprincipalname', 'mail', 'memberOf');
 		}
 		else{
 			$attributes = array();
 		}
 		
-		$ds = ldap_connect("ldap.missouri.edu",3268);
+		$ds = ldap_connect("ldap.umh.edu",3268);
 		
 		if(	ldap_set_option($ds, LDAP_OPT_PROTOCOL_VERSION, 3))
 		{
@@ -30,6 +30,12 @@
 			$sr = ldap_search($ds, $dn, $filter, $attributes);
 			$entry = ldap_first_entry($ds,$sr);
 			
+			$entry = ldap_get_attributes($ds, $entry);
+
+			echo "<pre>";
+			print_r($entry);
+			echo "</pre>";
+
 			foreach( $entry as $key => $array ) {
 				if(is_array($array)) {
 					foreach( $array as $that => $value ) {
