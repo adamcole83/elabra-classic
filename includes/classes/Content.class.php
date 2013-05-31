@@ -59,7 +59,7 @@ class Content
 			// check if page exists in db
 			$result_array = self::find_by_url($this->baseurl);
 			if(!empty($result_array)) {
-				return $result_array;
+				return $this->check_status($result_array);
 			}
 			
 			// if page not found search for it
@@ -86,6 +86,11 @@ class Content
 		}else{
 			return $this->show_404();
 		}
+	}
+
+	private function check_status($result_array)
+	{
+		return ($result_array->status == 'draft') ? $this->show_404() : $result_array;
 	}
 		
 	function urlcapture()
