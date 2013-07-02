@@ -6,7 +6,7 @@ class Site {
 	
 	public $department, $page, $content;
 	
-	global $session;
+	//global $session;
 
 	function Site($department=null)
 	{
