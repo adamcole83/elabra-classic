@@ -6,6 +6,8 @@ class Site {
 	
 	public $department, $page, $content;
 	
+	global $session;
+
 	function Site($department=null)
 	{
 		//instantiate department and page
@@ -24,6 +26,11 @@ class Site {
 		if($this->department->dev_mode == '1' && !isset($_SESSION['user_id']))
 		{
 			redirect_to('/admin/offline.php?r='.base64_encode($_SERVER['REQUEST_URI']));
+		}
+
+		if ($session->is_logged_in())
+		{
+			$this->page->body .= '<div><a href="http://medicine.missouri.edu/admin/page.php?action=edit&id='.$this->page->id.'">Edit</a>';
 		}
 		
 		// instantiate additional objects
