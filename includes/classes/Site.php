@@ -28,10 +28,10 @@ class Site {
 			redirect_to('/admin/offline.php?r='.base64_encode($_SERVER['REQUEST_URI']));
 		}
 
-		if ($session->is_logged_in())
-		{
-			$this->page->body .= '<div><a href="http://medicine.missouri.edu/admin/page.php?action=edit&id='.$this->page->id.'">Edit</a>';
-		}
+		// if ($session->is_logged_in())
+		// {
+		// 	$this->page->body .= '<div><a href="http://medicine.missouri.edu/admin/page.php?action=edit&id='.$this->page->id.'">Edit</a>';
+		// }
 		
 		// instantiate additional objects
 		$this->page->parent				= $this->content->find_by_id($this->page->parent_id);
