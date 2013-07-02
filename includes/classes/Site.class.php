@@ -5,6 +5,8 @@ class Site {
 	public $page_id, $page_title, $page_name, $page_description, $page_body, $page_url, $page_parent_id, $page_last_modified, $page_last_modified_by, $page_created, $department_id, $department_title, $department_code, $department_index_id, $department_directory, $department_path, $menu, $breadcrumbs, $banners;
 	
 	public $department, $page, $content;
+
+	global $session;
 	
 	function Site($department=null)
 	{	
@@ -20,6 +22,11 @@ class Site {
 		$this->content = new Content();
 		$this->content->department = $this->department->id;
 		$this->page = $this->content->getContent();
+
+		if ($session->is_logged_in())
+		{
+			$this->page->body .= '<div><a href="http://medicine.missouri.edu/admin/page.php?action=edit&id='.$this->page->id.'">Edit</a>';
+		}
 		
 		// Check if development
 		/*
