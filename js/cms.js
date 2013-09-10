@@ -10,7 +10,7 @@ var gDuration = 400,
 		phone: /^(?:(?:\+?1\s*(?:[.-]\s*)?)?(?:\(\s*([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9])\s*\)|([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]))\s*(?:[.-]\s*)?)?([2-9]1[02-9]|[2-9][02-9]1|[2-9][02-9]{2})\s*(?:[.-]\s*)?([0-9]{4})(?:\s*(?:#|x\.?|ext\.?|extension)\s*(\d+))?/
 	},
 	xhr = {
-		
+
 		access:		xhr_path + 'access.php',
 		process:	xhr_path + 'process.php',
 		deploy:		xhr_path + 'deploy.php',
@@ -27,11 +27,13 @@ var gDuration = 400,
 
 // document ready
 $(function() {
-	
+
 	init();
 	initforms();
 	//initTable();
-	
+
+	$('.qtip[title]').qtip({ style: { name: 'cream', tip: true } });
+
 });
 
 // initializer
@@ -57,7 +59,7 @@ function initforms()
 			}
 		});
 	}
-	
+
 	// capitalize shortcode
 	$('input#shortcode').keyup(function() {
 	    $(this).val($(this).val().toUpperCase());
@@ -70,7 +72,7 @@ function PulseAnimation(pulse_object, loop, minOpacity, fadeOutDuration, fadeInD
 		fadeOutDuration = fadeOutDuration || 650,
 		fadeInDuration = fadeInDuration || 650
 	;
-	
+
 	pulse_object.animate({
 		opacity: minOpacity
 	}, fadeOutDuration, function() {
@@ -157,7 +159,7 @@ function ChangeDepartment(id, clickObject)
 		data: { session: "department:"+id },
 		success: function() {
 			ShowTools();
-			
+
 			if(aCurrentView[1]==='edit') {
 				setTimeout('window.location = "page.php"', 450);
 			}else{
@@ -176,7 +178,7 @@ function Save(sData, obj)
 		aData.splice(1,0,'save');
 		var formData = $.param({ form: aData.join('-') }) + '&' + $('.editor').serialize();
 		$.post(xhr.process, formData, function(code) {
-			
+
 			if(inArray('page', aData) && inArray('save', aData))
 			{
 				if(code.match(/id/i))
@@ -292,7 +294,7 @@ function Publish(sData, obj, invokeReturn)
 		ShowDialog(ucfirst(aData[0]) + " was successfully saved and published.");
 		var t = setTimeout("HideDialog()",3000);
 	});
-	
+
 }
 
 // Delete Entry
@@ -419,15 +421,15 @@ function AppendMenuItem(dialog,item)
 		url = $(dialog).find('#menu-link').val(),
 		order = $(item).children('span').text()
 	;
-	
+
 	$.post(xhr.meta, {
-		
+
 		type: 'department',
 		action: 'add',
 		id: $('#department').val(),
 		key: 'menu-item',
 		value: order+';'+title+';'+url
-		
+
 	}, function() {
 		$( item ).html(title + "<span>"+ order +"</span>").removeClass('empty');
 		$( dialog ).dialog( "close" );
@@ -440,13 +442,13 @@ function ValidateForm(obj)
 	var form = (typeof obj === 'undefined') ? $('.required') : $(obj),
 		result = true
 	;
-	
+
 	for( var i=0;i<form.length;i++ ) {
 		var that = $('#'+form[i].name),
 			id = form[i].name,
 			value = form[i].value;
 		;
-		
+
 		if( id === 'permission' ) {
 			var perms = [];
 			$('input[name=permission]:checked').each(function() {
@@ -454,7 +456,7 @@ function ValidateForm(obj)
 			});
 			$('input[name=permissions]').val(perms.join(':'));
 		}
-		
+
 		if( id === 'group' ) {
 			var groups = [];
 			$('input[name=group]:checked').each(function() {
@@ -462,36 +464,36 @@ function ValidateForm(obj)
 			});
 			$('input[name=groups]').val(groups.join(':'));
 		}
-		
+
 		if( value === '' && that.hasClass('required') ) {
 			FormShowError(id, 'Required!');
 			result = false;
 		}
-		
+
 		else if( that.hasClass('required') ) {
 			FormShowError(id,'<span>(required)</span>');
 		}
-		
+
 		if( value !== '' && (that.hasClass('email') && !value.match(regex.email)) ) {
 			FormShowError(id, 'Invalid email address.');
 			result = false;
 		}
-		
+
 		if( value !== '' && (that.hasClass('phone') && !value.match(regex.phone)) ) {
 			FormShowError(id, 'Invalid phone number.');
 			result = false;
 		}
-		
+
 		if( value !== '' && (that.hasClass('password') && !value.match( $('#passwordconfirm').val())) ) {
 			FormShowError(id, 'Passwords do not match');
 			result = false;
 		}
-		
+
 		if( value !== '' && (that.hasClass('password') && (value.length <= 6 || value.length >= 20)) ) {
 			FormShowError(id, 'Password must be between 6 and 20 characters.');
 			result = false;
 		}
-		
+
 /*
 		if( value !== '' && id === 'username' ) {
 			if( User(value) !== 'false' ) {
@@ -500,16 +502,16 @@ function ValidateForm(obj)
 			}
 		}
 */
-		
+
 		if( value !== '' && that.hasClass('noduplicate') ) {
 			if( SearchForExisting($('#table').val(), value) !== 'false' ) {
 				FormShowError(id, 'Entry exists, try again.');
 				result = false;
 			}
 		}
-		
+
 	}
-	
+
 	return result;
 }
 
@@ -542,7 +544,7 @@ function SetMessage(msg)
 {
 	var res = $.ajax({
 		type: "POST",
-		url: xhr.message, 
+		url: xhr.message,
 		data: { message: msg },
 		dataType: 'json',
 		async: false
@@ -569,9 +571,9 @@ function TogglePermission(chk, id)
 	}else{
 		var dataString = 'form=group-addpermission-'+id+'&permission='+chk.value;
 	};
-	
+
 	console.log(dataString);
-	
+
 	$.ajax({
 		type: "POST",
 		url: xhr.process,
@@ -597,14 +599,14 @@ function LoadMCE(saveCallback)
 		cleanup: false,
 		height: "480",
 		width: "100%",
-		
+
 		// General options
 		theme : "advanced",
 		skin : "o2k7",
 		skin_variant : "silver",
 		pagebreak_separator : "<!--more-->",
 		plugins : "lists,spellchecker,pagebreak,style,layer,table,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template,advlist,save,tinyautosave",
-		
+
 		// Theme options
 		theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,bullist,numlist,blockquote,|,justifyleft,justifycenter,justifyright,justifyfull,|,link,unlink,anchor,|,image,media,pagebreak,|,template,|,formatselect,forecolor,|,pastetext,pasteword,|,charmap,|,outdent,indent,sub,sup,|,undo,redo,|,fullscreen,preview",
 		theme_advanced_buttons2 : "insertlayer,moveforward,movebackward,absolute,|,tablecontrols,|,search,replace,|,styleprops,code,clean",
@@ -617,22 +619,22 @@ function LoadMCE(saveCallback)
 		theme_advanced_blockformats : "p,div,h1,h2,h3,h4,h5,h6,blockquote,dt,dd,span",
 		gecko_spellcheck : true,
 		convert_urls : false,
-		
+
 		save_enablewhendirty : true,
         save_onsavecallback : saveCallback,
 		theme_advanced_buttons1_add : ",|,save,cancel,tinyautosave",
-		
+
 		content_css : "/css/mce.css",
-		
+
 		relative_urls : true,
-		
+
 		template_external_list_url : "js/tinymce/lists/template_list.js",
 		external_image_list_url : "js/tinymce/lists/image_list.php",
 		external_link_list_url : "js/tinymce/lists/link_list.php",
         media_external_list_url : "js/tinymce/lists/media_list.php",
-        
+
 	}
-	
+
 	var tinyMCE = $('#body').tinymce(options);
 }
 
@@ -675,7 +677,7 @@ function AssignUser(sAction)
 					$('<tr id="user-'+user.id+'"><td><a href="user.php?action=edit&id='+user.id+'">'+user.username+'</a></td>'+
 						'<td><button type="button" style="padding:0;" onclick="RelinquishUser(\''+
 						sAction+'\')">Relinquish</button></td></tr>').appendTo('.userlist');
-					
+
 				}
 			}
 		});
@@ -742,7 +744,7 @@ function DepartmentMeta(key,value) {
 	}
 	else
 	{
-		
+
 	}
 }
 
@@ -764,7 +766,7 @@ function Pack()
 	if(ValidateForm('package')){
 		var posturl = xhr.package;
 		var postData = 'html';
-		
+
 		$.post(
 			posturl, {
 				name:			$('input#name').val(),
@@ -806,7 +808,7 @@ function Upload(oUpload)
 	params 	+=	', scrollbars=no';
 	params	+=	', status=no';
 	params	+=	', toolbar=no';
-	
+
 	uploader = window.open(url, 'uploader', params);
 	if(window.focus) { uploader.focus(); };
 	return false;
@@ -816,13 +818,13 @@ function Upload(oUpload)
 function NewPackage(sID)
 {
 	$('#version_select').show();
-	
+
 	var aVersion = $('span#version-'+sID).text().replace(/\n/, '').split(".");
 	var seq1 = parseInt(aVersion[0]);
 	var seq2 = parseInt(aVersion[1]);
 	var seq3 = parseInt(aVersion[2]);
 	var version;
-	
+
 	$('.vbtn').click(function() {
 		$('#version_select').hide();
 		var type = $(this).text().toLowerCase();
@@ -840,18 +842,18 @@ function NewPackage(sID)
 				seq3 += 1;
 				version = seq1+"."+seq2+"."+seq3;
 		};
-		
+
 		var title		= $('h3#title-'+sID).text().replace(/\n/, '');
 		var author 		= $('a#author-'+sID).text().replace(/\n/, '');
 		var email 		= $('a#author-'+sID).attr('href').replace(/mailto:/, '').replace(/\n/, '');
 		var description	= $('p#description-'+sID).text().replace(/\n/, '');
-		
+
 		var dataString = Base64.encode("name="+title+"&description="+description+"&author="+author+"&email="+email+"&version="+version);
 		var deploy = $('#tabpack').children('span');
-		
+
 		ChangeTab(deploy,'pack.?q='+dataString);
 	});
-	
+
 	return false;
 }
 
@@ -894,7 +896,7 @@ function Slug(string)
 	var length = 50;
 	string = string.replace(/\s+/g,'-').toLowerCase().substring(0, length);
 	string = string.replace('&', 'and').replace(/[^a-zA-Z0-9\-]+/g,'');
-	
+
 	string = $.ajax({
 		url: xhr.meta,
 		type: "POST",
@@ -902,7 +904,7 @@ function Slug(string)
 		dataType: "HTML",
 		async: false
 	}).responseText;
-	
+
 	return string;
 }
 
@@ -926,7 +928,7 @@ function MenuOrderInit()
 			SaveSort(this);
 		},
 		stop: function(e,ui) {
-			
+
 		}
 	});
 	$('#remove-menu').droppable({
@@ -934,7 +936,7 @@ function MenuOrderInit()
 		accept: ".menu-item",
 		drop: function(e,ui) {
 			$.post(
-				xhr.meta, 
+				xhr.meta,
 				{
 					type: 'menu-item',
 					action: 'delete',
@@ -986,66 +988,66 @@ function pickRandomProperty(obj) {
 
 
 var menu = {
-	
+
 	settings : {
-		
+
 		department	: 0,
 		template	: '#template',
 		dropzone	: '#container',
-		
+
 		xhr : {
 			address : 'includes/xhr/nav-menus.php',
 			dataType : 'json'
 		}
-		
+
 	},
-	
+
 	init : function(options) {
 		menu.settings = $.extend( {}, menu.settings, options );
 		menu.bind.click.addpage();
 		menu.build.menu();
 	},
-	
+
 	build : {
-		
+
 		menu : function() {
 			var items = menu.data.all( menu.settings.department );
-			
+
 			if( items && ! items.error){
-				
+
 				for(var i=0; i<items.length; i++) {
 					menu.build.item( items[i] );
 				}
-				
+
 				$(menu.settings.dropzone).sortable({ items:"li" });
 			}
 		},
-		
+
 		item : function(obj) {
 			var menuItem = $( menu.settings.template ).clone(true).data('menu', obj);
-			
+
 			console.log(obj);
-			
+
 			// Set ID
 			menuItem.attr('id', menuItem.attr('id') + '-' + obj.id);
-			
+
 			// Set input name & values
 			$('input', menuItem).each(function(){
 				this.value = obj.menuitem[ this.name.replace('menu-item-','').replace('-','_') ];
 				this.name = this.name + '[' + obj.id + ']';
 			});
-			
+
 			// Set text
 			$('.menu-item-bar .item-title', menuItem).text(obj.menuitem.title);
 			$('.menu-item-bar .item-type', menuItem).text(obj.menuitem.type);
 			$('.menu-item-settings .field-url input', menuItem).val(obj.menuitem.url);
 			$('.menu-item-settings .field-title input', menuItem).val(obj.menuitem.title);
-			
+
 			if(obj.menuitem.object != 'custom') {
 				$('.menu-item-settings .field-url', menuItem)
 					.replaceWith('<div class="original"><em>Original:</em> <a href="'+obj.guid+'" target="_blank">'+obj.title+'</a></div>');
 			}
-			
+
 			// Bind events
 			$('.menu-item-bar a.item-edit, .menu-item-settings .cancel', menuItem).click(function(e) {
 				e.preventDefault();
@@ -1058,31 +1060,31 @@ var menu = {
 					menu.ajax.remove(obj.id);
 				}
 			});
-			
+
 			// Append to dropzone
 			menuItem.appendTo( menu.settings.dropzone ).fadeIn('slow');
-			
+
 			$(menu.settings.dropzone).sortable( "refresh" );
 		}
-		
+
 	},
-	
+
 	data : {
-		
+
 		all : function(id) {
 			return $.parseJSON( menu.ajax.request({ action:'get-all-menus', department:id }) );
 		},
-		
+
 		single : function(id) {
 			return $.parseJSON( menu.ajax.request({ action:'get-single-menu', id:id }) );
 		}
-		
+
 	},
-	
+
 	bind : {
-		
+
 		click : {
-			
+
 			addpage : function() {
 				$('#add-page input.addto:checked').each(function() {
 					var id = Number(this.name.replace('add-',''));
@@ -1091,7 +1093,7 @@ var menu = {
 				});
 				return false;
 			},
-			
+
 			addcustom : function() {
 				var data = { action:'add-custom-menu', department:menu.settings.department }, post;
 				$('#add-custom input').each(function() {
@@ -1101,18 +1103,18 @@ var menu = {
 				menu.ajax.create(data);
 				return false;
 			},
-			
+
 			savemenu : function() {
 				var data = { action:'update-menus' }, i = 1;
 				$(menu.settings.dropzone + ' li.menu-item').each(function() {
 					data[i] = $(this).data('menu');
 					data[i].position = data[i].menuitem.position = i;
-					
+
 					var inputtitle = $('input[name="menu-item-title['+data[i].id+']"]', this).val();
 					if(data[i].menuitem.title != inputtitle) {
 						data[i].menuitem.title = inputtitle;
 					}
-					
+
 					if(data[i].menuitem.object == 'custom') {
 						var inputurl = $('input[name="menu-item-url['+data[i].id+']"]', this).val();
 						if(data[i].menuitem.url != inputurl) {
@@ -1123,23 +1125,23 @@ var menu = {
 				});
 				menu.ajax.update(data);
 			}
-			
+
 		}
-			
+
 	},
-	
+
 	ajax : {
-		
+
 		create : function(data) {
 			var response = $.parseJSON( this.request(data) );
 			menu.build.item(response);
 		},
-		
+
 		update : function(data) {
 			var response = $.parseJSON( this.request(data) );
 			this.response(response.success);
 		},
-		
+
 		remove : function(id) {
 			var elem = $('li#menu-item-'+id),
 				data = elem.data('menu')
@@ -1149,12 +1151,12 @@ var menu = {
 			var response = $.parseJSON( this.request(data) );
 			this.response(response.success);
 		},
-		
+
 		response : function(msg) {
 			SetMessage(msg);
 			location.reload(true);
 		},
-		
+
 		request : function(data, callback, dataType) {
 			return $.ajax({
 				url : menu.settings.xhr.address,
@@ -1165,9 +1167,9 @@ var menu = {
 				success : callback
 			}).responseText;
 		}
-		
+
 	}
-		
+
 };
 
 
