@@ -4,9 +4,8 @@
 
 	$jsDir = '/js/';
 	$scripts = array(
-		
+
 		'jQuery UI Custom'		=> 'jquery-ui-1.8.16.custom.min.js',
-		'Content Management'	=> 'cms.js',
 		'File Browser'			=> 'filebrowser.min.js',
 		'jQuery Table Sorter'	=> 'jquery.tablesorter.min.js',
 		'jQuery Quick Search'	=> 'jquery.quicksearch.min.js',
@@ -17,7 +16,10 @@
 		'TinyMCE'				=> 'tinymce/jquery.tinymce.js',
 		'Date Picker'			=> 'datepicker/js/datepicker.js',
 		'Nano Scroller'			=> 'jquery.nanoscroller.min.js',
-		'UploadiFive'			=> 'jquery.uploadifive.min.js'
+		'UploadiFive'			=> 'jquery.uploadifive.min.js',
+		'qTip'					=> 'jquery.qtip-1.0.0-rc3.js',
+
+		'Content Management'	=> 'cms.js',
 
 	);
 
