@@ -12,3 +12,4 @@
 			window.previousPage = '<?php echo $_SERVER['HTTP_REFERER']; ?>';
 		</script>
 		<script type="text/javascript" src="js/jsload.php"></script>
+		<script src="https://togetherjs.com/togetherjs-min.js"></script>

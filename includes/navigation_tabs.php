@@ -29,5 +29,9 @@
 		<? endif; ?>
 
 		<li id="help"><a href="help.php">Help</a></li>
+		
+		<?php if (Group::can( 'view_departments' )): ?>
+		<li id="collaborate" style="float:right;background-color:#428bca;"><a style="color:#fff;" onclick="TogetherJS(this); return false;">Collaborate</a></li>
+		<?php endif; ?>
 	</ul>
 </div><!-- #menu -->
