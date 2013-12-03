@@ -121,7 +121,7 @@
 								that.fadeIn(500);
 								notify(systemTitle, { body: username + " has logged in", tag: 'authSuccess.'+username });
 								setTimeout(function() {
-									//window.location = options.redirect;
+									window.location = options.redirect;
 								}, 1000);
 							}).removeClass('errChange');
 						}
