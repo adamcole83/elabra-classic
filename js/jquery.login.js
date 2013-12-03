@@ -26,7 +26,7 @@
 			;
 			that.addClass('errChange');
 			// Send error notification
-			notify(systemTitle, { body: username + " failed authentication.", tag: 'authFail.' + username });
+			notify(systemTitle, { body: username + " failed authentication." });
 			// Reset dialog
 			reset();
 		};
@@ -119,7 +119,7 @@
 									'</' + options.welcomeElement + '>' 
 								).appendTo(that);
 								that.fadeIn(500);
-								notify(systemTitle, { body: username + " has logged in", tag: 'authSuccess.'+username });
+								notify(systemTitle, { body: username + " has logged in" });
 								setTimeout(function() {
 									window.location = options.redirect;
 								}, 1000);

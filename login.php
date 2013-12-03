@@ -50,7 +50,7 @@
 		
 		<script type="text/javascript" src="js/jquery.easing.1.3.min.js"></script>
 		<script src="js/notifications.js"></script>
-		<script type="text/javascript" src="js/jquery.login.min.js"></script>
+		<script type="text/javascript" src="js/jquery.login.js"></script>
 		<script type="text/javascript">
 			$('#login').auth({
 				dialogTop		: '+=25',
