@@ -2,7 +2,7 @@
 var systemTitle = "School of Medicine CMS";
 
 var notify = function(title, options) {
-	return;
+
 	// Check the notification compatibility
 	if (window.Notification) {
 		// Log the current permission level
