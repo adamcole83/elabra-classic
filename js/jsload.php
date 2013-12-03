@@ -19,6 +19,7 @@
 		'UploadiFive'			=> 'jquery.uploadifive.min.js',
 		'qTip'					=> 'jquery.qtip-1.0.0-rc3.js',
 
+		'Notification Center'	=> 'notifications.js',
 		'Content Management'	=> 'cms.js',
 
 	);

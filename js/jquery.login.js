@@ -1,7 +1,7 @@
 (function($) {
 	
 	$.fn.auth = function(opts) {
-		
+
 		// declare variables
 		var that = $(this),
 			options = $.extend({}, $.fn.auth.defaults, opts)
@@ -25,6 +25,9 @@
 				.show()
 			;
 			that.addClass('errChange');
+			// Send error notification
+			notify(systemTitle, { body: username + " failed authentication.", tag: 'authFail.' + username });
+			// Reset dialog
 			reset();
 		};
 		
@@ -116,8 +119,9 @@
 									'</' + options.welcomeElement + '>' 
 								).appendTo(that);
 								that.fadeIn(500);
+								notify(systemTitle, { body: username + " has logged in", tag: 'authSuccess.'+username });
 								setTimeout(function() {
-									window.location = options.redirect;
+									//window.location = options.redirect;
 								}, 1000);
 							}).removeClass('errChange');
 						}
